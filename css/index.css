@@ -1,0 +1,24 @@
+﻿html, body
+{
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+.flow-pager
+{
+    height: 99%;
+}
+
+.btns
+{
+    position:fixed;
+    top:1em;
+    right:1em;
+}
+
+.btns > button
+{
+    margin: 1em;
+    padding: .5em 1em;
+}
