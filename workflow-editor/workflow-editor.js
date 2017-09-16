@@ -567,18 +567,16 @@
 
             //绑定悬浮事件
             function bindmousehover() {
-                debugger;
+            
                 //只允许在浏览模式下激活
-                //test
-                // if (config.editable || !tooltipText) {
-                //     return;
-                // }
+                if (config.editable || !tooltipText) {
+                    return;
+                }
 
                 $(rect.node).on('mouseenter', function (e) {
 
                     var //toElement = e.target || e.toElement,
                         fromElement = e.fromElement || e.relatedTarget,
-                        //ToTagName,
                         fromTagName;
 
 
@@ -587,12 +585,8 @@
                     }
                     //ToTagName = toElement.tagName;
                     fromTagName = fromElement.tagName;
+                    //console.log("fromTagName:" + fromTagName);
 
-
-                    //console.log("toTagName:" + ToTagName);
-                    console.log("fromTagName:" + fromTagName);
-
-                    //if (fromTagName == 'svg' || fromTagName == 'path' || fromTagName === 'DIV') {
                     if ((fromTagName !== 'image' && fromTagName !== 'span') || fromTagName === 'DIV') {
                         tooltip && tooltip.remove();
                         //console.log('in')
@@ -611,13 +605,12 @@
                     }
 
                 });
-                //working
+               
                 $(rect.node).on('mouseleave', function (e) {
-                    debugger;
-                    var toElement = e.toElement || e.relatedTarget,
-                        //fromElement = e.target || e.fromElement,
+                    
+                    var toElement = e.toElement || e.relatedTarget,                 
                         ToTagName = toElement.tagName;
-                    //fromTagName = fromElement.tagName;
+            
 
                     console.log("toTagName:" + ToTagName);
                     // console.log("fromTagName:" + fromTagName);
@@ -625,13 +618,9 @@
                         return;
                     }
                     if (ToTagName === 'svg' || ToTagName === 'path' || ToTagName === 'rect' || ToTagName === 'DIV') {
-                        //if ((ToTagName !== 'image' && ToTagName !== 'span') || ToTagName === 'DIV') {
-                        //console.log('out')
                         tooltip && tooltip.remove();
-                        //tooltip = null;
                     }
                 });
-                //$([rect.node, text.node, image.node]).on("click", nodeToggle);
             }
 
             //解除绑定移动事件
@@ -2318,7 +2307,7 @@
             this.type = "path";
         },
         tooltip: function (container, paper, tooltipOpt, flowProps) {
-            debugger;
+            
             var config = container.data('opt'),
                 opt = $.extend(true, {}, config.tooltip, tooltipOpt),
                 x,
@@ -2331,7 +2320,6 @@
 
             x = opt.x + opt.width + opt.dx + 5;
             y = opt.y + opt.height / 2;
-            //console.log(tooltipText);
             //文字
             tooltip = paper.text(x + opt.dx, y, opt.text.name || "").attr(opt.text.attr);
             textBBox = tooltip.getBBox();
