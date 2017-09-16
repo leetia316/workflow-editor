@@ -7,7 +7,7 @@
         console.log({ pid: pid, props: props });
         var list = [];
         for (var i in this.path) {
-            list.push({ key: i, value: "天空中会亮的星 星星星星" });
+            list.push({ key: i, value: "天空中会亮的星 \r\n 星星星星" });
         }
 
         return list;
@@ -102,7 +102,7 @@
                 "ExtendProperty": null,
                 "CenterX": 300,
                 "CenterY": 78,
-                "ImagePath": "~\\Platform\\Image\\Console\\GraphEditor\\StartNode.png",
+                "ImagePath": "./workflow-editor/img/tools/StartNode.png",
                 "PluginList": []
             }
         },
@@ -146,7 +146,7 @@
                 "ExtendProperty": null,
                 "CenterX": 300,
                 "CenterY": 78,
-                "ImagePath": "~\\Platform\\Image\\Console\\GraphEditor\\StartNode.png",
+                "ImagePath": "./workflow-editor/img/tools/StartNode.png",
                 "PluginList": []
             }
         },
@@ -164,7 +164,7 @@
                 "ExtendProperty": null,
                 "CenterX": 300,
                 "CenterY": 78,
-                "ImagePath": "~\\Platform\\Image\\Console\\GraphEditor\\StartNode.png",
+                "ImagePath": "./workflow-editor/img/tools/StartNode.png",
                 "PluginList": []
             }
         },

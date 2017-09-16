@@ -1,9 +1,8 @@
-﻿
-.workflow-editor {
+﻿.workflow-editor {
     margin: 0px;
     padding: 0px;
     text-align: left;
-    font-family: 微软雅黑,Arial, sans-serif, Helvetica, Tahoma;
+    font-family: 微软雅黑, Arial, sans-serif, Helvetica, Tahoma;
     line-height: 1.5;
     color: black;
     position: relative;
@@ -11,61 +10,77 @@
     border: 1px solid #ccc;
 }
 
-    .workflow-editor .svg-container-top {
-        margin-left: 100px;
-        height: 100%;
-        overflow: auto;
-        background: url(../img/bg.png) repeat;
-    }
+.workflow-editor .svg-container-top {
+    margin-left: 100px;
+    height: 100%;
+    overflow: auto;
+    background: url(../img/bg.png) repeat;
+}
 
-    .workflow-editor .svg-container {
-        position: relative;
-        height: 100%;
-        overflow: hidden;
-    }
+.workflow-editor.workflow-editor-view .svg-container-top {
+    margin-left: 0;
+}
 
-    .workflow-editor .flow-tools {
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        bottom: 0px;
-        width: 90px;
-        cursor: default;
-        padding: 3px;
-        background-color: #f2f5f7;
-        border-right: 1px solid #ccc;
-        overflow: auto;
-    }
+.workflow-editor-view rect,
+.workflow-editor-view image,
+.workflow-editor-view text,
+.workflow-editor-view path,
+.workflow-editor-view .rvml {
+    cursor: default !important;
+}
 
-    .workflow-editor .flow-tools-header {
-        line-height: 2em;
-        text-align: center;
-        margin-bottom: 5px;
-        background: #e8e8e8;
-    }
+.workflow-editor .svg-container {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+}
 
-    .workflow-editor .flow-tools-node {
-        padding: 6px 0;
-        cursor: pointer;
-    }
+.workflow-editor .flow-tools {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    width: 90px;
+    cursor: default;
+    padding: 3px;
+    background-color: #f2f5f7;
+    border-right: 1px solid #ccc;
+    overflow: auto;
+}
 
-        .workflow-editor .flow-tools-node:hover {
-            background-color: #e6e6e6;
-        }
+.workflow-editor .flow-tools-header {
+    line-height: 2em;
+    text-align: center;
+    margin-bottom: 5px;
+    background: #e8e8e8;
+}
 
-        .workflow-editor .flow-tools-node > img {
-            width: 16px;
-            height: 16px;
-            margin: auto;
-            display: block;
-            margin-bottom: 3px;
-        }
+.workflow-editor .flow-tools-node {
+    padding: 6px 0;
+    cursor: pointer;
+}
 
-        .workflow-editor .flow-tools-node > span {
-            display: block;
-            text-align: center;
-        }
+.workflow-editor .flow-tools-node:hover {
+    background-color: #e6e6e6;
+}
 
-    .workflow-editor .selected {
-        background-color: #E6E6E6;
-    }
+.workflow-editor .flow-tools-node>img {
+    width: 16px;
+    height: 16px;
+    margin: auto;
+    display: block;
+    margin-bottom: 3px;
+}
+
+.workflow-editor .flow-tools-node>span {
+    display: block;
+    text-align: center;
+}
+
+.workflow-editor .selected {
+    background-color: #E6E6E6;
+}
+
+.workflow-editor tspan::selection {
+    background-color: rgba(0, 0, 0, 0);
+}
