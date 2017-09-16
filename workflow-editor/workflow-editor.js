@@ -567,7 +567,7 @@
 
             //绑定悬浮事件
             function bindmousehover() {
-            
+
                 //只允许在浏览模式下激活
                 if (config.editable || !tooltipText) {
                     return;
@@ -575,15 +575,14 @@
 
                 $(rect.node).on('mouseenter', function (e) {
 
-                    var //toElement = e.target || e.toElement,
-                        fromElement = e.fromElement || e.relatedTarget,
+                    var fromElement = e.fromElement || e.relatedTarget,
                         fromTagName;
 
 
                     if (!fromElement) {
                         return;
                     }
-                    //ToTagName = toElement.tagName;
+
                     fromTagName = fromElement.tagName;
                     //console.log("fromTagName:" + fromTagName);
 
@@ -605,15 +604,13 @@
                     }
 
                 });
-               
-                $(rect.node).on('mouseleave', function (e) {
-                    
-                    var toElement = e.toElement || e.relatedTarget,                 
-                        ToTagName = toElement.tagName;
-            
 
-                    console.log("toTagName:" + ToTagName);
-                    // console.log("fromTagName:" + fromTagName);
+                $(rect.node).on('mouseleave', function (e) {
+
+                    var toElement = e.toElement || e.relatedTarget,
+                        ToTagName = toElement.tagName;
+
+                    //console.log("toTagName:" + ToTagName);
                     if (!toElement) {
                         return;
                     }
@@ -2307,7 +2304,7 @@
             this.type = "path";
         },
         tooltip: function (container, paper, tooltipOpt, flowProps) {
-            
+
             var config = container.data('opt'),
                 opt = $.extend(true, {}, config.tooltip, tooltipOpt),
                 x,
