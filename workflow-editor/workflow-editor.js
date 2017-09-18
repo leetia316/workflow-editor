@@ -6,11 +6,11 @@
             guid: "88888888",
             lineHeight: 15,
             basePath: "",
-            //test
-            width: 400,
-            height: 600,
-            //width: 2400,
-            //height: 2400,
+            width: 2400,
+            height: 2400,
+            padding: 100,
+            // width: 400,
+            // height: 600,
             rect: {
                 attr: {
                     x: 10,
@@ -330,6 +330,10 @@
                     text: formatText(opt.text.text)
                 }));
 
+                //添加类型识别
+                $([rect[0], image[0], text[0]]).attr('type', 'node');
+                $(text[0]).find('tspan').attr('type', 'node');
+
                 x = opt.attr.x + opt.attr.width + config.validate.dx;
                 y = opt.attr.y;
                 validate = paper.text(x, y, config.validate.text).attr(config.validate.attr).hide();
@@ -579,17 +583,17 @@
                 $(rect.node).on('mouseenter', function (e) {
 
                     var fromElement = e.fromElement || e.relatedTarget,
-                        fromTagName;
+                        fromType;
 
 
                     if (!fromElement) {
                         return;
                     }
 
-                    fromTagName = fromElement.tagName;
-                    //console.log("fromTagName:" + fromTagName);
+                    fromType = $(fromElement).attr('type');
+                    //console.log("fromType:" + fromType);
 
-                    if ((fromTagName !== 'image' && fromTagName !== 'span') || fromTagName === 'DIV') {
+                    if (fromType !== 'node') {
                         tooltip && tooltip.remove();
                         //console.log('in')
                         var tooltipOpt = {
@@ -611,13 +615,16 @@
                 $(rect.node).on('mouseleave', function (e) {
 
                     var toElement = e.toElement || e.relatedTarget,
-                        ToTagName = toElement.tagName;
+                        toType;
 
-                    //console.log("toTagName:" + ToTagName);
                     if (!toElement) {
                         return;
                     }
-                    if (ToTagName === 'svg' || ToTagName === 'path' || ToTagName === 'rect' || ToTagName === 'DIV') {
+
+                    toType = $(toElement).attr('type');
+                    //console.log("toType:" + toType);
+
+                    if (toType !== 'node') {
                         tooltip && tooltip.remove();
                     }
                 });
@@ -2333,28 +2340,17 @@
             height = Math.ceil(textBBox.height);
             halfHeight = Math.ceil(height / 2);
             halfWidth = Math.ceil(width / 2);
-            debugger;
-            //working
+
             if ((halfHeight - y) > 0) {
                 offsetY = halfHeight - opt.dy;
             } else if (halfHeight + y > paper.height) {
                 offsetY = -halfHeight + opt.dy;
             }
 
-            // path = ['M', x - opt.dx, ' ', y,
-            //     'l', opt.dx, ' ', -opt.dy,
-            //     'v ', -height / 2 + offsetY,
-            //     'h ', width + 2 * opt.dx,
-            //     'v', height + 2 * opt.dy,
-            //     'h', -width - 2 * opt.dx,
-            //     'v', -height / 2 - offsetY,
-            //     'z'
-            // ]
-
             if (x + width + opt.dx > paper.width) {
                 x = opt.x - opt.dx - 5;
                 signX = -1;
-                offsetX = -opt.dx - width;
+                offsetX = -2 * opt.dx - width;
             }
 
             path = ['M', x - signX * opt.dx, ' ', y,
@@ -2372,7 +2368,7 @@
             if (offsetY !== 0 || offsetX !== 0) {
                 tooltip.attr({
                     y: y + offsetY,
-                    x: x + offsetX
+                    x: x + opt.dx + offsetX
                 })
             }
             tooltip.toFront();
@@ -2423,13 +2419,15 @@
             //创建画板
             function createcanvas() {
                 canvas = $("<div class=\"svg-container-top\"><div  class=\"svg-container\" ></div></div>").appendTo(container).find(".svg-container");
-                if (config.width) {
-                    canvas.width(config.width);
-                }
-                if (config.width) {
-                    canvas.height(config.height);
-                }
-                paper = new Raphael(canvas[0], canvas.width(), canvas.height());
+                //bad
+                // if (config.width) {
+                //     canvas.width(config.width);
+                // }
+                // if (config.width) {
+                //     canvas.height(config.height);
+                // }
+                paper = new Raphael(canvas[0], config.width || canvas.width(), config.height || canvas.height());
+                opt.paper = paper;
             }
 
             //节点切换
@@ -3127,7 +3125,40 @@
             $(container).on("validate", validate);
 
             load();
+
+        },
+        resize: function (container, opt) {
+            //设定浏览paper的大小
+            if (opt.editable !== false) {
+                return;
+            }
+            var paper = opt.paper;
+
+            var maxX = 0,
+                maxY = 0;
+
+            paper.forEach(function (elem) {
+
+                var attrs,
+                    x,
+                    y,
+                    width,
+                    height;
+                if (elem.type === 'rect') {
+                    attrs = elem.attrs;
+                    x = attrs.x;
+                    y = attrs.y;
+                    width = attrs.width;
+                    height = attrs.height;
+                    maxX = Math.max(maxX, x + width);
+                    maxY = Math.max(maxY, y + height);
+                }
+            });
+
+            //重置画布大小
+            paper.setSize(maxX + opt.padding, maxY + opt.padding);
         }
+
     };
 
     $.fn.hoteamflow = function (opt) {
@@ -3168,6 +3199,7 @@
                 $self.data("opt", opt);
                 $self.empty();
                 flow.init(this, opt);
+                flow.resize(this, opt);
             });
         }
     };

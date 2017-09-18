@@ -17,7 +17,7 @@ $(function () {
                 "CenterX": 300,
                 "CenterY": 78,
                 "ImagePath": "workflow-editor/img/StartNode.png",
-                "Tooltip": "我是Tooltip.... \r\n 啊哈哈啊哈哈哈 \r\n我是Tooltip.... \r\n 啊哈哈啊哈哈哈 \r\n我是Tooltip.... \r\n 啊哈哈啊哈哈哈 \r\n我是Tooltip.... \r\n 啊哈哈啊哈哈哈 \r\n我是Tooltip.... \r\n 啊哈哈啊哈哈哈 \r\n我是Tooltip.... \r\n 啊哈哈啊哈哈哈 \r\n",
+                "Tooltip": "我是Tooltip.... \n 啊哈哈啊哈哈哈 \n我是Tooltip.... \n 啊哈哈啊哈哈哈 \n我是Tooltip.... \n 啊哈哈啊哈哈哈 \n我是Tooltip.... \n 啊哈哈啊哈哈哈 \n我是Tooltip.... \n 啊哈哈啊哈哈哈 \n我是Tooltip.... \n 啊哈哈啊哈哈哈 \n",
                 "PluginList": []
             }, {
                 "NodeID": "EndNode",
@@ -27,7 +27,7 @@ $(function () {
                 "CenterX": 293,
                 "CenterY": 557,
                 "ImagePath": "workflow-editor/img/EndNode.png",
-                "Tooltip": "我是Tooltip.... \r\n 啊哈哈啊哈哈哈 \r\n我是Tooltip.... \r\n 啊哈哈啊哈哈哈 \r\n我是Tooltip.... \r\n 啊哈哈啊哈哈哈 \r\n我是Tooltip.... \r\n 啊哈哈啊哈哈哈 \r\n我是Tooltip.... \r\n 啊哈哈啊哈哈哈 \r\n我是Tooltip.... \r\n 啊哈哈啊哈哈哈 \r\n",
+                "Tooltip": "我是Tooltip.... \n 啊哈哈啊哈哈哈 \n我是Tooltip.... \n 啊哈哈啊哈哈哈 \n我是Tooltip.... \n 啊哈哈啊哈哈哈 \n我是Tooltip.... \n 啊哈哈啊哈哈哈 \n我是Tooltip.... \n 啊哈哈啊哈哈哈 \n我是Tooltip.... \n 啊哈哈啊哈哈哈 \n",
                 "PluginList": []
             }, {
                 "NodeID": "NODE43a1ec2fb4a143fcb915183b4b0c890d-SNode",
@@ -38,7 +38,7 @@ $(function () {
                 "CenterY": 218,
                 "ImagePath": "workflow-editor/img/tools/FlowOr.png",
                 "PluginList": [],
-                "Tooltip": "测试 \r\n 我是Tooltip.... \r\n 啊哈哈啊哈哈哈 \r\n ",
+                "Tooltip": "我是Tooltip.... \n 啊哈哈啊哈哈哈 \n ",
                 "State": "COMPLETE"
             }, {
                 "NodeID": "NODE43a1ec2fb4a143fcb915183b4b0c890d-ENode",
@@ -82,7 +82,7 @@ $(function () {
                 "CenterX": 193,
                 "CenterY": 326,
                 "ImagePath": "workflow-editor/img/tools/FlowExecute.png",
-                "Tooltip": "我是Tooltip.... \r\n 啊哈哈啊哈哈哈 \r\n我是Tooltip.... \r\n 啊哈哈啊哈哈哈 \r\n我是Tooltip.... \r\n 啊哈哈啊哈哈哈 \r\n我是Tooltip.... \r\n 啊哈哈啊哈哈哈 \r\n我是Tooltip.... \r\n 啊哈哈啊哈哈哈 \r\n我是Tooltip.... \r\n 啊哈哈啊哈哈哈 \r\n",
+                "Tooltip": "我是Tooltip.... \n 啊哈哈啊哈哈哈 \n我是Tooltip.... \n 啊哈哈啊哈哈哈 \n我是Tooltip.... \n 啊哈哈啊哈哈哈 \n我是Tooltip.... \n 啊哈哈啊哈哈哈 \n我是Tooltip.... \n 啊哈哈啊哈哈哈 \n我是Tooltip.... \n 啊哈哈啊哈哈哈 \n",
                 "State": "RUN",
                 "PluginList": [{
                     "Name": "SendFlowMessage",
@@ -145,7 +145,7 @@ $(function () {
             "Conditions": [],
             "HaveCondition": 0,
             "ConditionText": '一二三',
-            "Tooltip": "Tooltip： 测试 \r\n 我是Tooltip.... \r\n 啊哈哈啊哈哈哈 \r\n",
+            "Tooltip": "Tooltip： 测试 \n 我是Tooltip.... \n 啊哈哈啊哈哈哈 \n",
             "State": "COMPLETE"
         }, {
             "LinkID": "LINEd7e4d670466c46218f295d228aebf37d",

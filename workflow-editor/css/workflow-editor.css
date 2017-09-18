@@ -32,7 +32,7 @@
 .workflow-editor .svg-container {
     position: relative;
     height: 100%;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .workflow-editor .flow-tools {
