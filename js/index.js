@@ -123,7 +123,7 @@ $(function () {
                 "CenterX": 412,
                 "CenterY": 325,
                 "ImagePath": "workflow-editor/img/tools/FlowExecute.png",
-                "Tooltip": "Tooltip：测试/n我是Tooltip....",
+                "Tooltip": "Tooltip：测试\n我是Tooltip....",
                 "State": "RUN",
                 "PluginList": [{
                     "Name": "SendFlowMessage",

@@ -6,8 +6,11 @@
             guid: "88888888",
             lineHeight: 15,
             basePath: "",
-            width: 2400,
-            height: 2400,
+            //test
+            width: 400,
+            height: 600,
+            //width: 2400,
+            //height: 2400,
             rect: {
                 attr: {
                     x: 10,
@@ -2313,6 +2316,12 @@
                 tooltip,
                 height,
                 bg,
+                offsetY = 0,
+                offsetX = 0,
+                path = [],
+                halfHeight = 0,
+                halfWidth = 0,
+                signX = 1,
                 textBBox;
 
             x = opt.x + opt.width + opt.dx + 5;
@@ -2320,19 +2329,52 @@
             //文字
             tooltip = paper.text(x + opt.dx, y, opt.text.name || "").attr(opt.text.attr);
             textBBox = tooltip.getBBox();
-            width = textBBox.width;
-            height = textBBox.height;
-            //背景框
-            bg = paper.path(['M', x - opt.dx, ' ', y,
-                'l', opt.dx, ' ', -opt.dy,
-                'v ', -height / 2,
-                'h ', width + 2 * opt.dx,
-                'v', height + 2 * opt.dy,
-                'h', -width - 2 * opt.dx,
-                'v', -height / 2,
-                'z'
-            ].join('')).attr(opt.bg.attr);
+            width = Math.ceil(textBBox.width);
+            height = Math.ceil(textBBox.height);
+            halfHeight = Math.ceil(height / 2);
+            halfWidth = Math.ceil(width / 2);
+            debugger;
+            //working
+            if ((halfHeight - y) > 0) {
+                offsetY = halfHeight - opt.dy;
+            } else if (halfHeight + y > paper.height) {
+                offsetY = -halfHeight + opt.dy;
+            }
 
+            // path = ['M', x - opt.dx, ' ', y,
+            //     'l', opt.dx, ' ', -opt.dy,
+            //     'v ', -height / 2 + offsetY,
+            //     'h ', width + 2 * opt.dx,
+            //     'v', height + 2 * opt.dy,
+            //     'h', -width - 2 * opt.dx,
+            //     'v', -height / 2 - offsetY,
+            //     'z'
+            // ]
+
+            if (x + width + opt.dx > paper.width) {
+                x = opt.x - opt.dx - 5;
+                signX = -1;
+                offsetX = -opt.dx - width;
+            }
+
+            path = ['M', x - signX * opt.dx, ' ', y,
+                'l', signX * opt.dx, ' ', -opt.dy,
+                'v ', -height / 2 + offsetY,
+                'h ', signX * width + signX * 2 * opt.dx,
+                'v', height + 2 * opt.dy,
+                'h', -signX * width - signX * 2 * opt.dx,
+                'v', -height / 2 - offsetY,
+                'z'
+            ]
+            //背景框
+            bg = paper.path(path.join('')).attr(opt.bg.attr);
+
+            if (offsetY !== 0 || offsetX !== 0) {
+                tooltip.attr({
+                    y: y + offsetY,
+                    x: x + offsetX
+                })
+            }
             tooltip.toFront();
 
             this.remove = function () {
