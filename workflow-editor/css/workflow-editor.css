@@ -45,7 +45,16 @@
     padding: 3px;
     background-color: #f2f5f7;
     border-right: 1px solid #ccc;
+    /* overflow: auto; */
+}
+
+.workflow-editor .flow-tools>.flow-tools-content {
     overflow: auto;
+    position: absolute;
+    top: 36px;
+    bottom: 0;
+    right: 0;
+    left: 0;
 }
 
 .workflow-editor .flow-tools-header {

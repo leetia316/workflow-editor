@@ -121,24 +121,215 @@
                 },
                 pointer: {},
                 path: {},
-                states: {},
-                save: {
-                    type: 'save',
-                    name: {
-                        text: '<<save>>'
+                states: {
+                    select: {
+                        showType: 'image',
+                        type: 'select',
+                        name: {
+                            text: '<<select>>'
+                        },
+                        text: {
+                            text: '选择'
+                        },
+                        img: {
+                            src: './workflow-editor/img/tools/select.png',
+                            width: 16,
+                            height: 16
+                        },
+                        nodeType: "select",
+                        props: {}
                     },
-                    text: {
-                        text: '保存'
+                    line: {
+                        showType: 'image',
+                        type: 'line',
+                        name: {
+                            text: '<<line>>'
+                        },
+                        text: {
+                            text: '连线'
+                        },
+                        img: {
+                            src: './workflow-editor/img/tools/line.png',
+                            width: 16,
+                            height: 16
+                        },
+                        nodeType: "path"
                     },
-                    img: {
-                        src: 'img/tools/save.gif',
-                        width: 16,
-                        height: 16
+                    flowSwitch: {
+                        showType: 'image',
+                        type: 'flowSwitch',
+                        name: {
+                            text: '<<flowSwitch>>'
+                        },
+                        text: {
+                            text: '分支',
+                            start: '分支开始',
+                            end: '分支结束'
+                        },
+                        img: {
+                            src: './workflow-editor/img/tools/FlowSwitch.png',
+                            width: 16,
+                            height: 16
+                        },
+                        nodeType: "relaterect",
+                        props: {}
                     },
-                    onclick: function (c) {
-                        console.log(c);
+                    flowAnd: {
+                        showType: 'image',
+                        type: 'flowAnd',
+                        name: {
+                            text: '<<flowAnd>>'
+                        },
+                        text: {
+                            text: '并行与',
+                            start: '分支开始',
+                            end: '分支结束'
+                        },
+                        img: {
+                            src: './workflow-editor/img/tools/FlowAnd.png',
+                            width: 16,
+                            height: 16
+                        },
+                        nodeType: "relaterect",
+                        props: {}
+                    },
+                    flowOr: {
+                        showType: 'image',
+                        type: 'flowOr',
+                        name: {
+                            text: '<<flowOr>>'
+                        },
+                        text: {
+                            text: '并行或',
+                            start: '分支开始',
+                            end: '分支结束'
+                        },
+                        img: {
+                            src: './workflow-editor/img/tools/FlowOr.png',
+                            width: 16,
+                            height: 16
+                        },
+                        nodeType: "relaterect",
+                        props: {}
+                    },
+                    flowExecute: {
+                        showType: 'image',
+                        type: 'flowExecute',
+                        name: {
+                            text: '<<flowExecute>>'
+                        },
+                        text: {
+                            text: '执行'
+                        },
+                        img: {
+                            src: './workflow-editor/img/tools/FlowExecute.png',
+                            width: 16,
+                            height: 16
+                        },
+                        nodeType: "rect",
+                        props: {}
+                    },
+                    flowAudit: {
+                        showType: 'image',
+                        type: 'flowAudit',
+                        name: {
+                            text: '<<flowAudit>>'
+                        },
+                        text: {
+                            text: '评审'
+                        },
+                        img: {
+                            src: './workflow-editor/img/tools/FlowAudit.png',
+                            width: 16,
+                            height: 16
+                        },
+                        nodeType: "rect"
+                    },
+                    flowCheck: {
+                        showType: 'image',
+                        type: 'flowCheck',
+                        name: {
+                            text: '<<flowCheck>>'
+                        },
+                        text: {
+                            text: '签收'
+                        },
+                        img: {
+                            src: './workflow-editor/img/tools/FlowCheck.png',
+                            width: 16,
+                            height: 16
+                        },
+                        nodeType: "rect",
+                        props: {}
+                    },
+                    flowBusiness: {
+                        showType: 'image',
+                        type: 'flowBusiness',
+                        name: {
+                            text: '<<flowBusiness>>'
+                        },
+                        text: {
+                            text: '业务'
+                        },
+                        img: {
+                            src: './workflow-editor/img/tools/FlowBusiness.png',
+                            width: 16,
+                            height: 16
+                        },
+                        nodeType: "rect",
+                        props: {}
+                    },
+                    validate: {
+                        showType: 'image',
+                        type: 'validate',
+                        name: {
+                            text: '<<validate>>'
+                        },
+                        text: {
+                            text: '验证'
+                        },
+                        img: {
+                            src: './workflow-editor/img/tools/verification.png',
+                            width: 16,
+                            height: 16
+                        },
+                        nodeType: "validate"
+                    },
+                    "delete": {
+                        showType: 'image',
+                        type: 'delete',
+                        name: {
+                            text: '<<delete>>'
+                        },
+                        text: {
+                            text: '删除'
+                        },
+                        img: {
+                            src: './workflow-editor/img/tools/delete.png',
+                            width: 16,
+                            height: 16
+                        },
+                        nodeType: "delete"
                     }
                 }
+                // ,
+                // save: {
+                //     type: 'save',
+                //     name: {
+                //         text: '<<save>>'
+                //     },
+                //     text: {
+                //         text: '保存'
+                //     },
+                //     img: {
+                //         src: 'img/tools/save.gif',
+                //         width: 16,
+                //         height: 16
+                //     },
+                //     onclick: function (c) {
+                //         console.log(c);
+                //     }
+                // }
             },
             // props: {
             //     attr: {
@@ -214,7 +405,7 @@
                 container: [
                     '<div class="ui-widget-content flow-tools">',
                     '<div class="ui-widget-header flow-tools-header">工具集</div>',
-                    '[tools]',
+                    '<div class="flow-tools-content">[tools]</div>',
                     '</div>'
                 ]
             };
@@ -1562,7 +1753,7 @@
                     setValidate();
                     setCondition();
                 },
-                //绘制连线类型
+                //绘制连线类型：判断流程类型（水平流程、垂直流程）及流程线类型（直线、折线）
                 lineType: function () {
 
                     var startNodeCenter, endNodeCenter, v, h, t1, t2, fromDot, fromDotX, fromDotY, toDot, toDotX, toDotY, top, bottom, left, right, x, y;
@@ -2381,7 +2572,7 @@
             }
         },
         init: function (container, opt) {
-
+debugger;
             var restore,
                 width,
                 height,
@@ -2419,13 +2610,7 @@
             //创建画板
             function createcanvas() {
                 canvas = $("<div class=\"svg-container-top\"><div  class=\"svg-container\" ></div></div>").appendTo(container).find(".svg-container");
-                //bad
-                // if (config.width) {
-                //     canvas.width(config.width);
-                // }
-                // if (config.width) {
-                //     canvas.height(config.height);
-                // }
+
                 paper = new Raphael(canvas[0], config.width || canvas.width(), config.height || canvas.height());
                 opt.paper = paper;
             }
@@ -3123,6 +3308,10 @@
             $(container).on("save", save);
             //$(container).on("destroy", destroy);
             $(container).on("validate", validate);
+
+            $(container).on("custom", function () {
+                //working
+            });
 
             load();
 
