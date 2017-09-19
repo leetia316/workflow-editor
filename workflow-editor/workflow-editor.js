@@ -2572,7 +2572,7 @@
             }
         },
         init: function (container, opt) {
-debugger;
+
             var restore,
                 width,
                 height,
@@ -3288,6 +3288,19 @@ debugger;
                 tools.find(".delete").on("click", function () {
                     removeNode();
                 });
+
+                //用户自定义选项
+                tools.find(".custom").on("click", function (e) {
+                    //working           
+                    var elem = $(this),
+                        type = elem.attr('type'),
+                        fn = config.event[type];
+
+                    if (typeof fn === 'function') {
+                        fn.call(flowProps, pid, flowProps.props);
+                    }
+
+                });
             }
 
             //初始化流程图
@@ -3308,10 +3321,6 @@ debugger;
             $(container).on("save", save);
             //$(container).on("destroy", destroy);
             $(container).on("validate", validate);
-
-            $(container).on("custom", function () {
-                //working
-            });
 
             load();
 
@@ -3362,9 +3371,11 @@ debugger;
                 $self.removeData('opt');
             },
             save: function () {
+                //bad
                 $self.trigger("save");
             },
             validate: function () {
+                //bad
                 var data;
                 $self.trigger("validate");
                 data = $self.data("validate");

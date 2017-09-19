@@ -471,7 +471,11 @@ $(function () {
 
     var opt = {
         pid: "pid",
-        event: {},
+        event: {
+            "load": function (pid, props) {
+                $("#paper").hoteamflow(opt);
+            }
+        },
         tools: {
             states: {
                 "load": {
