@@ -39,7 +39,7 @@
 
     //配置验证事件(配置到全局)
     hoteamflow.config.event.validate = function (pid, props) {
-        debugger;
+    
         console.log({
             pid: pid,
             props: props
