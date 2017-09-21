@@ -512,7 +512,7 @@
                 }
                 return text;
             }
-     
+
             //创建节点
             function create(opt) {
                 var x = 0,
@@ -528,7 +528,7 @@
                 height = opt.attr.height;
 
                 rect = paper.rect(x, y, width, height).attr(opt.attr);
-            
+
                 src = flow.formatImageUrl(opt.img.src, opt.props.NodeType, config);
                 x = opt.attr.x + 8;
                 y = opt.attr.y + (opt.attr.height / 2) - (opt.img.height / 2);
@@ -876,7 +876,6 @@
             }
 
             //初始化节点
-            debugger;
             create(opt);
             binddrag();
             bindclick();
@@ -1801,7 +1800,7 @@
                 },
                 //绘制连线类型：判断流程类型（水平流程、垂直流程）及流程线类型（直线、折线）
                 lineType: function () {
-
+         
                     var startNodeCenter, endNodeCenter, v, h, t1, t2, fromDot, fromDotX, fromDotY, toDot, toDotX, toDotY, top, bottom, left, right, x, y;
 
                     if (flowProps.rect.StartNode && flowProps.rect.EndNode) {
@@ -1840,9 +1839,9 @@
                         toDotY = endRect.attr("y");
                     }
 
-
                     //垂直流程
                     if (v > h) {
+                        directionType = "v";
                         if (path.toDot && path.fromDot) {
                             firstLineWidth = firstLineWidth || defaultFirstLineWidth;
                         } else if (!path.toDot && !path.fromDot) {
@@ -1852,7 +1851,7 @@
                         } else {
                             t1 = toDotY - fromDotY > 0 ? 1 : -1;
                             t2 = endNodeCenter.y - startNodeCenter.y > 0 ? 1 : -1;
-                            directionType = "v";
+                            //directionType = "v";
                             //正向：直线
                             if (t1 === t2) {
                                 //console.log("进入 垂直流程 正向");
@@ -1884,6 +1883,7 @@
                     }
                     //水平流程
                     else if (v < h) {
+                        directionType = "h";
                         if (path.toDot && path.fromDot) {
                             firstLineWidth = firstLineWidth || defaultFirstLineWidth;
                         } else if (!path.toDot && !path.fromDot) {
@@ -1893,7 +1893,7 @@
                         } else {
                             t1 = toDotX - fromDotX > 0 ? 1 : -1;
                             t2 = endNodeCenter.x - startNodeCenter.x > 0 ? 1 : -1;
-                            directionType = "h";
+                            //directionType = "h";
                             if (t1 === t2) {
                                 //正向：直线
                                 //console.log("进入 水平流程 正向");
@@ -2696,7 +2696,7 @@
                         if (prevNodeProps) {
                             prevNode.text(prevNodeProps.NodeText);
                             prevNodeProps.ImagePath ? null : prevNodeProps.ImagePath = '';
-                         
+
                             src = flow.formatImageUrl(prevNodeProps.ImagePath, prevNodeProps.NodeType, config);
                             prevNode.img(src);
 
@@ -2781,8 +2781,7 @@
 
                 //新建的节点，把属性添加到全局流程对象
                 if (isCreateNewNode) {
-                    //working
-                    debugger;
+
                     newNodeTemplate = config.tools.states[type];
                     newNode = $.extend(true, {}, config.rect.props, newNodeTemplate.props);
                     flowProps.props.NodeList.push(newNode);
@@ -3002,7 +3001,6 @@
                             }
                         }
 
-                        debugger;
                         for (i = 0, len = rectList.length; i < len; i++) {
                             node = rectList[i];
                             node.ImagePath ? null : node.ImagePath = '';
@@ -3121,17 +3119,7 @@
 
             //业务菜单
             function business(type) {
-                //用户自定义业务菜单（非创建节点菜单项）选项
-                // tools.find(".business").on("click", function (e) {
-                //     //working      
-                //     debugger;
-                //     var elem = $(this),
-                //         type = elem.attr('type'),
-                //         fn = config.event[type];
 
-                //     if (typeof fn === 'function') {
-                //         fn.call(flowProps, pid, flowProps.props);
-                //     }
                 var fn = fn = config.event[type];
                 if (typeof fn === 'function') {
                     fn.call(flowProps, pid, flowProps.props);
@@ -3379,28 +3367,6 @@
                     }
                 });
 
-                //验证选项
-                // tools.find(".validate").on("click", function () {
-                //     validate();
-                // });
-                //删除选项
-                // tools.find(".delete").on("click", function () {
-                //     removeNode();
-                // });
-
-                //用户自定义业务菜单（非创建节点菜单项）选项
-                // tools.find(".business").on("click", function (e) {
-                //     //working      
-                //     debugger;
-                //     var elem = $(this),
-                //         type = elem.attr('type'),
-                //         fn = config.event[type];
-
-                //     if (typeof fn === 'function') {
-                //         fn.call(flowProps, pid, flowProps.props);
-                //     }
-
-                // });
             }
 
             //初始化流程图
@@ -3489,13 +3455,29 @@
             }
         } else {
             return this.each(function () {
+                var lastData;
+                //如果没有指定guid，则重新生成新的guid
+                if (!opt.guid) {
+                    opt.guid = (new Date()).getTime();
+                }
 
                 if ($self.hasClass("workflow-editor")) {
-                    var lastData = $self.data("opt");
+                    lastData = $self.data("opt");
+                    //保证每次初始化时的guid都是不一样的，避免生成重复id的节点
+                    if (opt.guid === lastData.guid) {
+                        opt.guid += (new Date()).getTime();
+                    }
+                    if (opt.restore) {
+                        if (opt.restore.NodeList || opt.restore.NodeList.length > 0) {
+                            lastData.restore.NodeList = [];
+                        }
+                        if (opt.restore.LinkList || opt.restore.LinkList.length > 0) {
+                            lastData.restore.LinkList = [];
+                        }
+                    }
                     opt = $.extend(true, {}, flow.config, lastData, opt);
                 } else {
                     _opt = $.extend(true, {}, flow.config);
-                    debugger;
                     $.each(_opt.tools.states, function (i, n) {
                         var imgSrc = this.img.src;
                         this.img.src = opt.basePath + 'img/tools/' + imgSrc;
@@ -3503,6 +3485,7 @@
 
                     opt = $.extend(true, {}, _opt, opt);
                 }
+
                 $self.data("opt", opt);
                 $self.empty();
                 flow.init(this, opt);
