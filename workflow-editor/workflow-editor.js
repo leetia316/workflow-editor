@@ -2,15 +2,15 @@
 (function ($) {
     var flow = {
         config: {
+            //是否可以编辑
             editable: true,
             guid: "88888888",
             lineHeight: 15,
             basePath: "",
+            location: location.origin,
             width: 2400,
             height: 2400,
             padding: 100,
-            // width: 400,
-            // height: 600,
             rect: {
                 attr: {
                     x: 10,
@@ -38,7 +38,6 @@
                     cursor: "move",
                     "font-family": "微软雅黑"
                 },
-                props: [],
                 img: {
                     attr: {
                         cursor: "move"
@@ -46,6 +45,16 @@
                     src: "",
                     width: 16,
                     height: 16
+                },
+                props: {
+                    "NodeID": "",
+                    "NodeType": "",
+                    "NodeText": "",
+                    "CenterX": null,
+                    "CenterY": null,
+                    "ImagePath": "",
+                    "ConditionText": '',
+                    "Tooltip": ""
                 }
             },
             path: {
@@ -67,6 +76,19 @@
                         stroke: "#03689A",
                         "stroke-width": 1
                     }
+                },
+                props: {
+                    ConditionText: "",
+                    EndNodeID: null,
+                    EndX: null,
+                    EndY: null,
+                    FirstLength: 0,
+                    LinkID: null,
+                    StartNodeID: null,
+                    StartX: null,
+                    StartY: null,
+                    State: "",
+                    Tooltip: "",
                 }
             },
             validate: {
@@ -124,15 +146,13 @@
                 states: {
                     select: {
                         showType: 'image',
-                        type: 'select',
-                        name: {
-                            text: '<<select>>'
-                        },
+                        //type: 'select',
+                        name: '<<select>>',
                         text: {
                             text: '选择'
                         },
                         img: {
-                            src: './workflow-editor/img/tools/select.png',
+                            src: 'select.png',
                             width: 16,
                             height: 16
                         },
@@ -141,33 +161,63 @@
                     },
                     line: {
                         showType: 'image',
-                        type: 'line',
-                        name: {
-                            text: '<<line>>'
-                        },
+                        //type: 'line',
+                        text: '<<line>>',
                         text: {
                             text: '连线'
                         },
                         img: {
-                            src: './workflow-editor/img/tools/line.png',
+                            src: 'line.png',
                             width: 16,
                             height: 16
                         },
                         nodeType: "path"
                     },
+                    flowStart: {
+                        showType: null,
+                        //type: 'FlowSwitch',
+                        name: 'StartNode',
+                        text: {
+                            text: '开始',
+                            start: '',
+                            end: ''
+                        },
+                        img: {
+                            src: 'StartNode.png',
+                            width: 16,
+                            height: 16
+                        },
+                        nodeType: null,
+                        props: {}
+                    },
+                    flowEnd: {
+                        showType: null,
+                        //type: 'FlowSwitch',
+                        name: 'EndNode',
+                        text: {
+                            text: '开始',
+                            start: '',
+                            end: ''
+                        },
+                        img: {
+                            src: 'EndNode.png',
+                            width: 16,
+                            height: 16
+                        },
+                        nodeType: null,
+                        props: {}
+                    },
                     flowSwitch: {
                         showType: 'image',
-                        type: 'flowSwitch',
-                        name: {
-                            text: '<<flowSwitch>>'
-                        },
+                        //type: 'FlowSwitch',
+                        name: 'FlowSwitch',
                         text: {
                             text: '分支',
                             start: '分支开始',
                             end: '分支结束'
                         },
                         img: {
-                            src: './workflow-editor/img/tools/FlowSwitch.png',
+                            src: 'FlowSwitch.png',
                             width: 16,
                             height: 16
                         },
@@ -176,17 +226,15 @@
                     },
                     flowAnd: {
                         showType: 'image',
-                        type: 'flowAnd',
-                        name: {
-                            text: '<<flowAnd>>'
-                        },
+                        //type: 'flowAnd',
+                        name: 'FlowAnd',
                         text: {
                             text: '并行与',
                             start: '分支开始',
                             end: '分支结束'
                         },
                         img: {
-                            src: './workflow-editor/img/tools/FlowAnd.png',
+                            src: 'FlowAnd.png',
                             width: 16,
                             height: 16
                         },
@@ -195,17 +243,15 @@
                     },
                     flowOr: {
                         showType: 'image',
-                        type: 'flowOr',
-                        name: {
-                            text: '<<flowOr>>'
-                        },
+                        //type: 'flowOr',
+                        name: 'FlowOr',
                         text: {
                             text: '并行或',
                             start: '分支开始',
                             end: '分支结束'
                         },
                         img: {
-                            src: './workflow-editor/img/tools/FlowOr.png',
+                            src: 'FlowOr.png',
                             width: 16,
                             height: 16
                         },
@@ -214,15 +260,13 @@
                     },
                     flowExecute: {
                         showType: 'image',
-                        type: 'flowExecute',
-                        name: {
-                            text: '<<flowExecute>>'
-                        },
+                        //type: 'flowExecute',
+                        name: 'FlowExecute',
                         text: {
                             text: '执行'
                         },
                         img: {
-                            src: './workflow-editor/img/tools/FlowExecute.png',
+                            src: 'FlowExecute.png',
                             width: 16,
                             height: 16
                         },
@@ -231,15 +275,13 @@
                     },
                     flowAudit: {
                         showType: 'image',
-                        type: 'flowAudit',
-                        name: {
-                            text: '<<flowAudit>>'
-                        },
+                        //type: 'flowAudit',
+                        name: 'FlowAudit',
                         text: {
                             text: '评审'
                         },
                         img: {
-                            src: './workflow-editor/img/tools/FlowAudit.png',
+                            src: 'FlowAudit.png',
                             width: 16,
                             height: 16
                         },
@@ -247,15 +289,13 @@
                     },
                     flowCheck: {
                         showType: 'image',
-                        type: 'flowCheck',
-                        name: {
-                            text: '<<flowCheck>>'
-                        },
+                        //type: 'flowCheck',
+                        name: 'FlowCheck',
                         text: {
                             text: '签收'
                         },
                         img: {
-                            src: './workflow-editor/img/tools/FlowCheck.png',
+                            src: 'FlowCheck.png',
                             width: 16,
                             height: 16
                         },
@@ -264,72 +304,50 @@
                     },
                     flowBusiness: {
                         showType: 'image',
-                        type: 'flowBusiness',
-                        name: {
-                            text: '<<flowBusiness>>'
-                        },
+                        //type: 'flowBusiness',
+                        name: 'FlowBusiness',
                         text: {
                             text: '业务'
                         },
                         img: {
-                            src: './workflow-editor/img/tools/FlowBusiness.png',
+                            src: 'FlowBusiness.png',
                             width: 16,
                             height: 16
                         },
                         nodeType: "rect",
                         props: {}
                     },
+                    //固定的操作"validate":验证
                     validate: {
                         showType: 'image',
-                        type: 'validate',
-                        name: {
-                            text: '<<validate>>'
-                        },
+                        //type: 'validate',
+                        name: '<<validate>>',
                         text: {
                             text: '验证'
                         },
                         img: {
-                            src: './workflow-editor/img/tools/verification.png',
+                            src: 'verification.png',
                             width: 16,
                             height: 16
                         },
                         nodeType: "validate"
                     },
+                    //固定的操作"delete"：删除
                     "delete": {
                         showType: 'image',
-                        type: 'delete',
-                        name: {
-                            text: '<<delete>>'
-                        },
+                        //type: 'delete',
+                        name: '<<delete>>',
                         text: {
                             text: '删除'
                         },
                         img: {
-                            src: './workflow-editor/img/tools/delete.png',
+                            src: 'delete.png',
                             width: 16,
                             height: 16
                         },
                         nodeType: "delete"
                     }
                 }
-                // ,
-                // save: {
-                //     type: 'save',
-                //     name: {
-                //         text: '<<save>>'
-                //     },
-                //     text: {
-                //         text: '保存'
-                //     },
-                //     img: {
-                //         src: 'img/tools/save.gif',
-                //         width: 16,
-                //         height: 16
-                //     },
-                //     onclick: function (c) {
-                //         console.log(c);
-                //     }
-                // }
             },
             // props: {
             //     attr: {
@@ -413,12 +431,15 @@
             html = template.container.slice();
             for (i in opt) {
                 if (opt.hasOwnProperty(i)) {
+
                     item = opt[i];
-                    nodeType = (!item.nodeType || item.nodeType === "none") ? "" : item.nodeType;
-                    items.push(template.node.slice().replace("[src]", basePath + item.img.src).replace("[name]", item.text.text).replace("[type]", item.type).replace("[state]", nodeType));
+                    //添加type属性，与key一致
+                    opt[i].type = i;
+                    nodeType = (!item.nodeType || item.nodeType === "none") ? "business" : item.nodeType;
+                    items.push(template.node.slice().replace("[src]", item.img.src.replace(/~/, config.location)).replace("[name]", item.text.text).replace("[type]", i).replace("[state]", nodeType));
                 }
             }
-            tool = $(html.join("").replace("[tools]", items.join("")).replace(/\[basePath\]/g, basePath)).appendTo(container);
+            tool = $(html.join("").replace("[tools]", items.join(""))).appendTo(container);
 
             return tool;
 
@@ -491,9 +512,9 @@
                 }
                 return text;
             }
-
-            //创建
-            function create(opt, basePath) {
+     
+            //创建节点
+            function create(opt) {
                 var x = 0,
                     y = 0,
                     width = 0,
@@ -507,8 +528,8 @@
                 height = opt.attr.height;
 
                 rect = paper.rect(x, y, width, height).attr(opt.attr);
-
-                src = basePath + opt.img.src;
+            
+                src = flow.formatImageUrl(opt.img.src, opt.props.NodeType, config);
                 x = opt.attr.x + 8;
                 y = opt.attr.y + (opt.attr.height / 2) - (opt.img.height / 2);
                 width = opt.img.width;
@@ -589,18 +610,20 @@
             }
 
             //通过x,y 移动至新的位置
-            function setposition(x, y) {
+            function setPosition(x, y, opt) {
+
                 rect.attr({
                     x: x,
                     y: y
                 });
                 image.attr({
                     x: x + 8,
-                    y: y + (opt.attr.height / 2) - (opt.img.height / 2)
+                    y: y + (config.rect.attr.height / 2) - (image.attrs.height / 2)
                 });
+
                 text.attr({
-                    x: x + opt.attr.width / 2,
-                    y: y + opt.attr.height / 2
+                    x: x + config.rect.attr.width / 2 + 12,
+                    y: y + config.rect.attr.height / 2
                 });
             }
 
@@ -678,7 +701,7 @@
                 if (x < 0 || y < 0 || (x + width > paperWidth) || (y + height > paperHeight)) {
                     x = x < 0 ? 1 : (x + width > paperWidth ? paperWidth - width - 1 : x);
                     y = y < 0 ? 1 : (y + height > paperHeight ? paperHeight - height - 1 : y);
-                    setposition(x, y);
+                    setPosition(x, y, opt);
                 }
 
                 rect.attr({
@@ -852,8 +875,9 @@
                 return "M " + p1 + " " + p2 + " L " + p3 + " " + p4 + " L " + p5 + " " + p6 + " L " + p7 + "  " + p8 + " L " + p1 + "  " + p2 + " ";
             }
 
-            //初始化
-            create(opt, basePath);
+            //初始化节点
+            debugger;
+            create(opt);
             binddrag();
             bindclick();
             bindmousehover();
@@ -985,7 +1009,7 @@
 
             //显示验证信息
             this.showValidate = function (text) {
-                validate.attr("text", text).show();
+                validate.attr("text", text || '').show();
             };
 
             //隐藏验证信息
@@ -997,6 +1021,28 @@
             this.type = "rect";
 
             changeProps();
+        },
+        formatImageUrl: function (src, nodeType, config) {
+            var states = config.tools.states,
+                basePath = config.basePath,
+                location = config.location;
+
+            if (src) {
+                src = src.replace(/~/, location);
+                return src;
+            }
+            src = '';
+            //加载默认
+            $.each(states, function (i, arr) {
+                var item = this,
+                    _nodeType = item.name;
+                if (nodeType === _nodeType) {
+                    src = item.img.src;
+                    return false;
+                }
+            });
+
+            return src;
         },
         path: function (container, paper, pathOpt, flowProps) {
             var config = container.data('opt');
@@ -1083,7 +1129,7 @@
                 $(endRect[0]).attr("data-type", "path-end-rect");
 
                 validate = paper.text(x1 + config.validate.dx, y1, config.validate.text).attr(config.validate.attr).hide();
-
+                //working
                 condition = paper.text((x1 + x2) / 2, (y1 + y2) / 2, opt.props.ConditionText || "").attr(config.condition.attr);
 
 
@@ -2385,7 +2431,7 @@
                 $([path.node, bigPath.node, startRect.node, endRect.node]).off();
             }
 
-            //初始化及创建
+            //初始化及创建连线
             create(opt);
             binddrag();
             bindclick();
@@ -2487,13 +2533,13 @@
 
             //显示验证信息
             this.showValidate = function (text) {
-                validate.attr("text", text).show();
+                validate.attr("text", text || '').show();
             };
 
-            //显示验证信息
+            //显示条件信息
             this.conditionText = function (text) {
-                console.log(condition);
-                condition.attr("text", text).show();
+                //console.log(condition);
+                condition.attr("text", text || '').show();
             };
 
             //隐藏验证信息
@@ -2644,13 +2690,16 @@
                         return;
                     }
 
-                    //同步节点显示 text img
+                    //同步节点显示 text
                     if (prevNode && prevNode.type === "rect") {
+
                         if (prevNodeProps) {
                             prevNode.text(prevNodeProps.NodeText);
-                            if (typeof prevNodeProps.ImagePath === "string") {
-                                prevNode.img(prevNodeProps.ImagePath.replace(/~\\/, config.basePath));
-                            }
+                            prevNodeProps.ImagePath ? null : prevNodeProps.ImagePath = '';
+                         
+                            src = flow.formatImageUrl(prevNodeProps.ImagePath, prevNodeProps.NodeType, config);
+                            prevNode.img(src);
+
                         }
                     } else if (prevNode && prevNode.type === "path") {
                         if (prevNodeProps) {
@@ -2727,13 +2776,19 @@
                     d = null,
                     newNode = null,
                     isCreateNewNode = !options.id,
-                    props = options.props;
+                    props = options.props,
+                    newNodeTemplate;
 
                 //新建的节点，把属性添加到全局流程对象
                 if (isCreateNewNode) {
-                    newNode = $.extend(true, {}, config.tools.states[type].props);
+                    //working
+                    debugger;
+                    newNodeTemplate = config.tools.states[type];
+                    newNode = $.extend(true, {}, config.rect.props, newNodeTemplate.props);
                     flowProps.props.NodeList.push(newNode);
                     newNode.NodeID = id;
+                    newNode.NodeText = newNodeTemplate.text.text;
+                    newNode.NodeType = newNodeTemplate.name;
                     props = newNode;
                 }
                 //创建新的节点
@@ -2793,6 +2848,7 @@
                 flowProps.props.NodeList.push(newStart);
                 newEnd = nodeEndOpt.props;
                 newEnd.NodeID = endId;
+                newEnd.NodeType = nodeStartOpt.name;
                 flowProps.props.NodeList.push(newEnd);
 
                 //创建节点
@@ -2829,7 +2885,8 @@
 
                 //新建的节点，把属性添加到全局流程对象
                 if (!options.id) {
-                    newNode = $.extend(true, {}, config.tools.states[type].props);
+                    //working
+                    newNode = $.extend(true, {}, config.path.props, config.tools.states[type].props);
                     flowProps.props.LinkList.push(newNode);
                     newNode.LinkID = id;
                     props = newNode;
@@ -2924,6 +2981,7 @@
                     rectList, pathList,
                     node, nodeOpt,
                     path, pathOpt,
+                    imageSrc,
                     x, y, offsetX = 0,
                     offsetY = 0;
 
@@ -2944,14 +3002,15 @@
                             }
                         }
 
-
+                        debugger;
                         for (i = 0, len = rectList.length; i < len; i++) {
                             node = rectList[i];
+                            node.ImagePath ? null : node.ImagePath = '';
                             nodeOpt = {
                                 nodeType: "addrect",
                                 id: node.NodeID,
                                 img: {
-                                    src: node.ImagePath.replace(/~\\/, ""),
+                                    src: node.ImagePath,
                                     width: 16,
                                     height: 16
                                 },
@@ -3060,28 +3119,64 @@
 
             }
 
+            //业务菜单
+            function business(type) {
+                //用户自定义业务菜单（非创建节点菜单项）选项
+                // tools.find(".business").on("click", function (e) {
+                //     //working      
+                //     debugger;
+                //     var elem = $(this),
+                //         type = elem.attr('type'),
+                //         fn = config.event[type];
+
+                //     if (typeof fn === 'function') {
+                //         fn.call(flowProps, pid, flowProps.props);
+                //     }
+                var fn = fn = config.event[type];
+                if (typeof fn === 'function') {
+                    fn.call(flowProps, pid, flowProps.props);
+                }
+
+            }
+
             //创建工具栏
             function createTools() {
                 tools = flow.tools(container, flowProps, paper);
                 var toolsNode = tools.find(".flow-tools-node");
 
+                //工具栏浮动变色
                 toolsNode.hover(function () {
                     $(this).addClass("ui-state-hover");
                 }, function () {
                     $(this).removeClass("ui-state-hover");
                 });
+
+                //工具栏菜单按钮事件绑定
                 toolsNode.on("click", function () {
 
                     var nodeOpt = config.tools.states[$(this).attr("type")],
-                        type = nodeOpt.nodeType,
+                        type = nodeOpt.nodeType || 'business',
                         cursor = "default";
 
                     $(".flow-tools-node").removeClass("selected ui-state-active");
                     $(this).addClass("selected ui-state-active");
                     $(paper).data("mod", this);
 
-                    if (type === "select" || type === "delete" || type === "validate") {
+                    if (type === "select" || type === "delete" || type === "validate" || type === "business") {
                         cursor = "default";
+                        switch (type) {
+                            //删除选项
+                            case 'delete':
+                                removeNode();
+                                break;
+                                //验证选项
+                            case 'validate':
+                                validate();
+                                break;
+                            case 'business':
+                                business(nodeOpt.type);
+                                break;
+                        }
                     } else {
                         cursor = "crosshair";
                     }
@@ -3100,6 +3195,7 @@
                 //创建节点或线 允许创建多个
                 canvas.on({
                     mousedown: function (e) {
+
                         //按下鼠标左键
                         if (e.which === 1) {
                             var which = e.which,
@@ -3114,7 +3210,8 @@
 
                             //创建连线
                             nodeOpt = config.tools.states[mod.attr("type")];
-                            if (!nodeOpt) {
+                            //未配置相关参数或nodeType为空（非创建节点类型菜单）
+                            if (!nodeOpt || !nodeOpt.nodeType) {
                                 return;
                             }
                             type = nodeOpt.nodeType;
@@ -3158,6 +3255,7 @@
                         }
                     },
                     mouseup: function (e) {
+
                         var which = e.which,
                             mod = $($(paper).data("mod")),
                             x = e.offsetX,
@@ -3232,6 +3330,7 @@
 
                     },
                     mousemove: function (e) {
+
                         var which = e.which,
                             mod = $($(paper).data("mod")),
                             x1 = 0,
@@ -3281,26 +3380,27 @@
                 });
 
                 //验证选项
-                tools.find(".validate").on("click", function () {
-                    validate();
-                });
+                // tools.find(".validate").on("click", function () {
+                //     validate();
+                // });
                 //删除选项
-                tools.find(".delete").on("click", function () {
-                    removeNode();
-                });
+                // tools.find(".delete").on("click", function () {
+                //     removeNode();
+                // });
 
-                //用户自定义选项
-                tools.find(".custom").on("click", function (e) {
-                    //working           
-                    var elem = $(this),
-                        type = elem.attr('type'),
-                        fn = config.event[type];
+                //用户自定义业务菜单（非创建节点菜单项）选项
+                // tools.find(".business").on("click", function (e) {
+                //     //working      
+                //     debugger;
+                //     var elem = $(this),
+                //         type = elem.attr('type'),
+                //         fn = config.event[type];
 
-                    if (typeof fn === 'function') {
-                        fn.call(flowProps, pid, flowProps.props);
-                    }
+                //     if (typeof fn === 'function') {
+                //         fn.call(flowProps, pid, flowProps.props);
+                //     }
 
-                });
+                // });
             }
 
             //初始化流程图
@@ -3360,7 +3460,7 @@
     };
 
     $.fn.hoteamflow = function (opt) {
-        var fn, self, $self;
+        var fn, self, $self, _opt;
 
         self = this;
         $self = $(this);
@@ -3371,11 +3471,11 @@
                 $self.removeData('opt');
             },
             save: function () {
-                //bad
                 $self.trigger("save");
+                var data = $self.data('opt');
+                return data.restore;
             },
             validate: function () {
-                //bad
                 var data;
                 $self.trigger("validate");
                 data = $self.data("validate");
@@ -3394,7 +3494,14 @@
                     var lastData = $self.data("opt");
                     opt = $.extend(true, {}, flow.config, lastData, opt);
                 } else {
-                    opt = $.extend(true, {}, flow.config, opt);
+                    _opt = $.extend(true, {}, flow.config);
+                    debugger;
+                    $.each(_opt.tools.states, function (i, n) {
+                        var imgSrc = this.img.src;
+                        this.img.src = opt.basePath + 'img/tools/' + imgSrc;
+                    });
+
+                    opt = $.extend(true, {}, _opt, opt);
                 }
                 $self.data("opt", opt);
                 $self.empty();
