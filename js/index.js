@@ -285,15 +285,15 @@ $(function () {
         event: {
             load: function (pid, props) {
                 opt.restore = restore2;
-                $("#paper").hoteamflow(opt);
+                $("#paper").workflow(opt);
             },
             view: function (pid, props) {
                 opt.editable = false;
-                $("#paper").hoteamflow(opt);
+                $("#paper").workflow(opt);
             },
             save: function (pid, props) {
                 debugger;
-                var restore = $("#paper").hoteamflow('save');
+                var restore = $("#paper").workflow('save');
             }
         },
         tools: {
@@ -349,6 +349,6 @@ $(function () {
 
 
 
-    $("#paper").hoteamflow(opt);
+    $("#paper").workflow(opt);
 
 });

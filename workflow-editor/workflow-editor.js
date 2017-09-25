@@ -1,4 +1,17 @@
-﻿/*global jQuery, Raphael */ ;
+﻿/*!
+ * workflow editor v1.3.0 -  jQuery raphael plug
+ *
+ * Includes jquery.js
+ * Includes raphael.js
+ *
+ * Copyright © 2017-2018 huangqing
+ * Released under the MIT license
+ *
+ * Date: 2017-09-25
+ */
+
+/*global jQuery, Raphael */
+;
 (function ($) {
     var flow = {
         config: {
@@ -435,8 +448,10 @@
                     item = opt[i];
                     //添加type属性，与key一致
                     opt[i].type = i;
-                    nodeType = (!item.nodeType || item.nodeType === "none") ? "business" : item.nodeType;
-                    items.push(template.node.slice().replace("[src]", item.img.src.replace(/~/, config.location)).replace("[name]", item.text.text).replace("[type]", i).replace("[state]", nodeType));
+                    if (item.showType) {
+                        nodeType = (!item.nodeType || item.nodeType === "none") ? "business" : item.nodeType;
+                        items.push(template.node.slice().replace("[src]", item.img.src.replace(/~/, config.location)).replace("[name]", item.text.text).replace("[type]", i).replace("[state]", nodeType));
+                    }
                 }
             }
             tool = $(html.join("").replace("[tools]", items.join(""))).appendTo(container);
@@ -1800,7 +1815,7 @@
                 },
                 //绘制连线类型：判断流程类型（水平流程、垂直流程）及流程线类型（直线、折线）
                 lineType: function () {
-         
+
                     var startNodeCenter, endNodeCenter, v, h, t1, t2, fromDot, fromDotX, fromDotY, toDot, toDotX, toDotY, top, bottom, left, right, x, y;
 
                     if (flowProps.rect.StartNode && flowProps.rect.EndNode) {
@@ -3425,7 +3440,7 @@
 
     };
 
-    $.fn.hoteamflow = function (opt) {
+    $.fn.workflow = function (opt) {
         var fn, self, $self, _opt;
 
         self = this;
@@ -3455,7 +3470,9 @@
             }
         } else {
             return this.each(function () {
-                var lastData;
+                var lastData,
+                    config = JSON.parse(JSON.stringify(flow.config));
+
                 //如果没有指定guid，则重新生成新的guid
                 if (!opt.guid) {
                     opt.guid = (new Date()).getTime();
@@ -3475,16 +3492,16 @@
                             lastData.restore.LinkList = [];
                         }
                     }
-                    opt = $.extend(true, {}, flow.config, lastData, opt);
+                    opt = $.extend(true, {}, config, lastData, opt);
                 } else {
-                    _opt = $.extend(true, {}, flow.config);
-                    $.each(_opt.tools.states, function (i, n) {
+
+                    $.each(config.tools.states, function (i, n) {
                         var imgSrc = this.img.src;
                         this.img.src = opt.basePath + 'img/tools/' + imgSrc;
                     });
-
-                    opt = $.extend(true, {}, _opt, opt);
                 }
+
+                opt = $.extend(true, {}, config, opt);
 
                 $self.data("opt", opt);
                 $self.empty();
@@ -3494,5 +3511,5 @@
         }
     };
 
-    $.hoteamflow = flow;
+    $.workflow = flow;
 }(jQuery));

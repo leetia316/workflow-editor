@@ -1,13 +1,13 @@
 ﻿$(function () {
-    var hoteamflow = $.hoteamflow,
+    var workflow = $.workflow,
         href = window.location.href,
-        states = hoteamflow.config.tools.states,
+        states = workflow.config.tools.states,
         i,
         len,
         node;
 
 
-    $.extend(true, hoteamflow.config.rect, {
+    $.extend(true, workflow.config.rect, {
         attr: {
             r: 8,
             fill: "270-#fff-#d7d7d7",
@@ -18,7 +18,7 @@
         }
     });
 
-    $.extend(true, hoteamflow.config.path, {
+    $.extend(true, workflow.config.path, {
         attr: {
             stroke: '#0099ff',
             "stroke-width": 2,
@@ -37,7 +37,7 @@
         }
     });
 
-    $.extend(true, hoteamflow.config.tools.states, {
+    $.extend(true, workflow.config.tools.states, {
         select: {
             showType: 'image',
             type: 'select',

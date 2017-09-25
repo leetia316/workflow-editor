@@ -1,12 +1,12 @@
 ﻿(function ($) {
 
-    var hoteamflow = $.hoteamflow;
+    var workflow = $.workflow;
 
     //配置基础路径（配置全局）
-    hoteamflow.config.basePath = "";
+    workflow.config.basePath = "";
 
     //配置节点样式（配置全局）
-    $.extend(true, hoteamflow.config.rect, {
+    $.extend(true, workflow.config.rect, {
         attr: {
             r: 8,
             fill: "270-#fff-#d7d7d7",
@@ -18,7 +18,7 @@
     });
 
     //配置连线样式（配置全局）
-    $.extend(true, hoteamflow.config.path, {
+    $.extend(true, workflow.config.path, {
         attr: {
             stroke: '#0099ff',
             "stroke-width": 2,
@@ -38,7 +38,7 @@
     });
 
     //配置验证事件(配置到全局)
-    hoteamflow.config.event.validate = function (pid, props) {
+    workflow.config.event.validate = function (pid, props) {
     
         console.log({
             pid: pid,
@@ -56,7 +56,7 @@
     };
 
     //配置工具栏节点(配置到实例)
-    // $.extend(true, hoteamflow.config.tools.states, {
+    // $.extend(true, workflow.config.tools.states, {
     //     select: {
     //         showType: 'image',
     //         type: 'select',
@@ -127,7 +127,7 @@
     //                 label: '显示',
     //                 value: '',
     //                 editor: function () {
-    //                     return new hoteamflow.editors.textEditor();
+    //                     return new workflow.editors.textEditor();
     //                 },
     //                 value: '开始'
     //             },
@@ -136,7 +136,7 @@
     //                 label: '文本',
     //                 value: '',
     //                 editor: function () {
-    //                     return new hoteamflow.editors.inputEditor();
+    //                     return new workflow.editors.inputEditor();
     //                 }
     //             },
     //             temp2: {
@@ -144,7 +144,7 @@
     //                 label: '选择',
     //                 value: '',
     //                 editor: function () {
-    //                     return new hoteamflow.editors.selectEditor([{
+    //                     return new workflow.editors.selectEditor([{
     //                         name: 'aaa',
     //                         value: 1
     //                     }, {
@@ -206,7 +206,7 @@
     //         //     //     label: '显示',
     //         //     //     value: '',
     //         //     //     editor: function () {
-    //         //     //         return new hoteamflow.editors.textEditor();
+    //         //     //         return new workflow.editors.textEditor();
     //         //     //     },
     //         //     //     value: '开始'
     //         //     // },
@@ -215,7 +215,7 @@
     //         //     //     label: '文本',
     //         //     //     value: '',
     //         //     //     editor: function () {
-    //         //     //         return new hoteamflow.editors.inputEditor();
+    //         //     //         return new workflow.editors.inputEditor();
     //         //     //     }
     //         //     // },
     //         //     // temp2: {
@@ -223,7 +223,7 @@
     //         //     //     label: '选择',
     //         //     //     value: '',
     //         //     //     editor: function () {
-    //         //     //         return new hoteamflow.editors.selectEditor([{
+    //         //     //         return new workflow.editors.selectEditor([{
     //         //     //             name: 'aaa',
     //         //     //             value: 1
     //         //     //         }, {
@@ -255,7 +255,7 @@
     //         //         label: '显示',
     //         //         value: '',
     //         //         editor: function () {
-    //         //             return new hoteamflow.editors.textEditor();
+    //         //             return new workflow.editors.textEditor();
     //         //         },
     //         //         value: '开始'
     //         //     },
@@ -264,7 +264,7 @@
     //         //         label: '文本',
     //         //         value: '',
     //         //         editor: function () {
-    //         //             return new hoteamflow.editors.inputEditor();
+    //         //             return new workflow.editors.inputEditor();
     //         //         }
     //         //     },
     //         //     temp2: {
@@ -272,7 +272,7 @@
     //         //         label: '选择',
     //         //         value: '',
     //         //         editor: function () {
-    //         //             return new hoteamflow.editors.selectEditor([{
+    //         //             return new workflow.editors.selectEditor([{
     //         //                 name: 'aaa',
     //         //                 value: 1
     //         //             }, {
@@ -356,7 +356,7 @@
     //         //         label: '显示',
     //         //         value: '',
     //         //         editor: function () {
-    //         //             return new hoteamflow.editors.textEditor();
+    //         //             return new workflow.editors.textEditor();
     //         //         },
     //         //         value: '开始'
     //         //     },
@@ -365,7 +365,7 @@
     //         //         label: '文本',
     //         //         value: '',
     //         //         editor: function () {
-    //         //             return new hoteamflow.editors.inputEditor();
+    //         //             return new workflow.editors.inputEditor();
     //         //         }
     //         //     },
     //         //     temp2: {
@@ -373,7 +373,7 @@
     //         //         label: '选择',
     //         //         value: '',
     //         //         editor: function () {
-    //         //             return new hoteamflow.editors.selectEditor([{
+    //         //             return new workflow.editors.selectEditor([{
     //         //                 name: 'aaa',
     //         //                 value: 1
     //         //             }, {

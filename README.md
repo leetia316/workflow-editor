@@ -9,31 +9,31 @@
 配置基础路径
 
 ```javascript
-$.hoteamflow.config.basePath = "";
+$.workflow.config.basePath = "";
 ```
 
 配置id
 
 ```javascript
-$.hoteamflow.config.guid='xxxxxx'
+$.workflow.config.guid='xxxxxx'
 ```
 
 配置事件
 
 ```javascript
-$.hoteamflow.config.event.toggle = function (pid, prevProps, currProps, props){}
+$.workflow.config.event.toggle = function (pid, prevProps, currProps, props){}
 
-$.hoteamflow.config.event.validate = function (pid, props){}
+$.workflow.config.event.validate = function (pid, props){}
 
-$.hoteamflow.config.event.lineMoveEnd = function (pid, currProps, props, direction){}
+$.workflow.config.event.lineMoveEnd = function (pid, currProps, props, direction){}
 
-$.hoteamflow.config.event.selectTemplate = function (pid, props){}
+$.workflow.config.event.selectTemplate = function (pid, props){}
 ```
 
 配置验证事件
 
 ```javascript
-$.hoteamflow.config.event.validate = function (pid, props) {
+$.workflow.config.event.validate = function (pid, props) {
     console.log({ pid: pid, props: props });
     var list = [];
     //根据实际情况添加验证提示信息
@@ -48,7 +48,7 @@ $.hoteamflow.config.event.validate = function (pid, props) {
 配置节点样式
 
 ```javascript
-$.extend(true, $.hoteamflow.config.rect, {
+$.extend(true, $.workflow.config.rect, {
     attr: {
         r: 8,
         fill: "270-#fff-#d7d7d7",
@@ -63,7 +63,7 @@ $.extend(true, $.hoteamflow.config.rect, {
 配置连线样式
 
 ```javascript
-$.extend(true, $.hoteamflow.config.path, {
+$.extend(true, $.workflow.config.path, {
     attr: {
         stroke: '#0099ff',
         "stroke-width": 2,
@@ -86,11 +86,11 @@ $.extend(true, $.hoteamflow.config.path, {
 配置工具栏节点
 
 ```javascript
- $.hoteamflow.config.tools.states
+ $.workflow.config.tools.states
 ```   
 
 ```javascript
-$.extend(true, $.hoteamflow.config.tools.states, {
+$.extend(true, $.workflow.config.tools.states, {
     select: {
         showType: 'image',
         type: 'select',
@@ -130,9 +130,9 @@ $.extend(true, $.hoteamflow.config.tools.states, {
         img: { src: './workflow-editor/img/tools/FlowSwitch.png', width: 16, height: 16 },
         nodeType: "relaterect",
         props: {
-            text: { name: 'text', label: '显示', value: '', editor: function () { return new hoteamflow.editors.textEditor(); }, value: '开始' },
-            temp1: { name: 'temp1', label: '文本', value: '', editor: function () { return new hoteamflow.editors.inputEditor(); } },
-            temp2: { name: 'temp2', label: '选择', value: '', editor: function () { return new hoteamflow.editors.selectEditor([{ name: 'aaa', value: 1 }, { name: 'bbb', value: 2 }]); } }
+            text: { name: 'text', label: '显示', value: '', editor: function () { return new workflow.editors.textEditor(); }, value: '开始' },
+            temp1: { name: 'temp1', label: '文本', value: '', editor: function () { return new workflow.editors.inputEditor(); } },
+            temp2: { name: 'temp2', label: '选择', value: '', editor: function () { return new workflow.editors.selectEditor([{ name: 'aaa', value: 1 }, { name: 'bbb', value: 2 }]); } }
         }
     },
     flowAnd: {
@@ -161,9 +161,9 @@ $.extend(true, $.hoteamflow.config.tools.states, {
         img: { src: './workflow-editor/img/tools/FlowOr.png', width: 16, height: 16 },
         nodeType: "relaterect",
         props: {
-            text: { name: 'text', label: '显示', value: '', editor: function () { return new hoteamflow.editors.textEditor(); }, value: '开始' },
-            temp1: { name: 'temp1', label: '文本', value: '', editor: function () { return new hoteamflow.editors.inputEditor(); } },
-            temp2: { name: 'temp2', label: '选择', value: '', editor: function () { return new hoteamflow.editors.selectEditor([{ name: 'aaa', value: 1 }, { name: 'bbb', value: 2 }]); } }
+            text: { name: 'text', label: '显示', value: '', editor: function () { return new workflow.editors.textEditor(); }, value: '开始' },
+            temp1: { name: 'temp1', label: '文本', value: '', editor: function () { return new workflow.editors.inputEditor(); } },
+            temp2: { name: 'temp2', label: '选择', value: '', editor: function () { return new workflow.editors.selectEditor([{ name: 'aaa', value: 1 }, { name: 'bbb', value: 2 }]); } }
         }
     },
     flowExecute: {
@@ -174,9 +174,9 @@ $.extend(true, $.hoteamflow.config.tools.states, {
         img: { src: './workflow-editor/img/tools/FlowExecute.png', width: 16, height: 16 },
         nodeType: "rect",
         props: {
-            text: { name: 'text', label: '显示', value: '', editor: function () { return new hoteamflow.editors.textEditor(); }, value: '开始' },
-            temp1: { name: 'temp1', label: '文本', value: '', editor: function () { return new hoteamflow.editors.inputEditor(); } },
-            temp2: { name: 'temp2', label: '选择', value: '', editor: function () { return new hoteamflow.editors.selectEditor([{ name: 'aaa', value: 1 }, { name: 'bbb', value: 2 }]); } }
+            text: { name: 'text', label: '显示', value: '', editor: function () { return new workflow.editors.textEditor(); }, value: '开始' },
+            temp1: { name: 'temp1', label: '文本', value: '', editor: function () { return new workflow.editors.inputEditor(); } },
+            temp2: { name: 'temp2', label: '选择', value: '', editor: function () { return new workflow.editors.selectEditor([{ name: 'aaa', value: 1 }, { name: 'bbb', value: 2 }]); } }
         }
     },
     flowAudit: {
@@ -223,9 +223,9 @@ $.extend(true, $.hoteamflow.config.tools.states, {
         img: { src: './workflow-editor/img/tools/FlowBusiness.png', width: 16, height: 16 },
         nodeType: "rect",
         props: {
-            text: { name: 'text', label: '显示', value: '', editor: function () { return new hoteamflow.editors.textEditor(); }, value: '开始' },
-            temp1: { name: 'temp1', label: '文本', value: '', editor: function () { return new hoteamflow.editors.inputEditor(); } },
-            temp2: { name: 'temp2', label: '选择', value: '', editor: function () { return new hoteamflow.editors.selectEditor([{ name: 'aaa', value: 1 }, { name: 'bbb', value: 2 }]); } }
+            text: { name: 'text', label: '显示', value: '', editor: function () { return new workflow.editors.textEditor(); }, value: '开始' },
+            temp1: { name: 'temp1', label: '文本', value: '', editor: function () { return new workflow.editors.inputEditor(); } },
+            temp2: { name: 'temp2', label: '选择', value: '', editor: function () { return new workflow.editors.selectEditor([{ name: 'aaa', value: 1 }, { name: 'bbb', value: 2 }]); } }
         }
     },
     validate: {
@@ -424,5 +424,5 @@ props = {
 };
 opt.restore = props;
 
-$("#paper").hoteamflow(opt);
+$("#paper").workflow(opt);
 ```
