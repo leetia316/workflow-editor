@@ -360,7 +360,8 @@
                         },
                         nodeType: "delete"
                     }
-                }
+                },
+                event: {}
             },
             // props: {
             //     attr: {
@@ -3135,7 +3136,7 @@
             //业务菜单
             function business(type) {
 
-                var fn = fn = config.event[type];
+                var fn = fn = config.tools.event[type];
                 if (typeof fn === 'function') {
                     fn.call(flowProps, pid, flowProps.props);
                 }
@@ -3473,6 +3474,8 @@
                 var lastData,
                     config = JSON.parse(JSON.stringify(flow.config));
 
+                config.event = flow.config.event;
+
                 //如果没有指定guid，则重新生成新的guid
                 if (!opt.guid) {
                     opt.guid = (new Date()).getTime();
@@ -3497,14 +3500,15 @@
 
                     $.each(config.tools.states, function (i, n) {
                         var imgSrc = this.img.src;
-                        this.img.src = opt.basePath + 'img/tools/' + imgSrc;
+                        this.img.src = (opt.basePath || config.basePath || '') + 'img/tools/' + imgSrc;
                     });
                 }
 
                 opt = $.extend(true, {}, config, opt);
-
+                debugger;
                 $self.data("opt", opt);
                 $self.empty();
+                debugger;
                 flow.init(this, opt);
                 flow.resize(this, opt);
             });

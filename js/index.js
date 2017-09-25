@@ -282,20 +282,6 @@ $(function () {
     var opt = {
         pid: "pid",
         basePath: './workflow-editor/',
-        event: {
-            load: function (pid, props) {
-                opt.restore = restore2;
-                $("#paper").workflow(opt);
-            },
-            view: function (pid, props) {
-                opt.editable = false;
-                $("#paper").workflow(opt);
-            },
-            save: function (pid, props) {
-                debugger;
-                var restore = $("#paper").workflow('save');
-            }
-        },
         tools: {
             states: {
                 load: {
@@ -341,7 +327,21 @@ $(function () {
                     },
                     nodeType: null
                 }
-            }
+            },
+            event: {
+                load: function (pid, props) {
+                    opt.restore = restore2;
+                    $("#paper").workflow(opt);
+                },
+                view: function (pid, props) {
+                    opt.editable = false;
+                    $("#paper").workflow(opt);
+                },
+                save: function (pid, props) {
+                    debugger;
+                    var restore = $("#paper").workflow('save');
+                }
+            },
         },
         restore: restore2
     };
