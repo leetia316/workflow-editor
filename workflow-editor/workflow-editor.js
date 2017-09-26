@@ -451,7 +451,7 @@
                     opt[i].type = i;
                     if (item.showType) {
                         nodeType = (!item.nodeType || item.nodeType === "none") ? "business" : item.nodeType;
-                        items.push(template.node.slice().replace("[src]", item.img.src.replace(/~/, config.location)).replace("[name]", item.text.text).replace("[type]", i).replace("[state]", nodeType));
+                        items.push(template.node.slice().replace("[src]", item.img.src.replace(/~/, '.')).replace("[name]", item.text.text).replace("[type]", i).replace("[state]", nodeType));
                     }
                 }
             }
@@ -1043,7 +1043,8 @@
                 location = config.location;
 
             if (src) {
-                src = src.replace(/~/, location);
+                //src = src.replace(/~/, location);
+                src = src.replace(/~/, '.');
                 return src;
             }
             src = '';
