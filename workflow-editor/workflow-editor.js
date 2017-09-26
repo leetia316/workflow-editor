@@ -1205,7 +1205,9 @@
                         node.EndY = Math.round(y2);
 
                         node.DisplayType = displayType;
-                        node.FirstLength = firstLineWidth;
+                        //console.log("FirstLength: " + firstLineWidth);
+                        //取整数
+                        node.FirstLength = Math.round(firstLineWidth);
                         break;
                     }
                 }
@@ -1788,6 +1790,7 @@
                     var i, len, x1, x2, y1, y2, dotX1, dotY1, dotX2, dotY2, pathArray, dotSize;
 
                     dotSize = config.path.rect.attr.width;
+                    //console.log('drawByPathStr:' + pathStr);
                     path.attr({
                         path: pathStr
                     });
@@ -3361,6 +3364,7 @@
                             x1 = lineCreate.x;
                             y1 = lineCreate.y;
 
+
                             if (target.tagName === "tspan") {
                                 target = $(target).parent();
                                 x2 = parseInt(target.attr("x"), 0);
@@ -3371,7 +3375,12 @@
                                 x2 = x2 + Math.floor($(target).css("left").replace("px", ""));
                                 y2 = y2 + Math.floor($(target).css("top").replace("px", ""));
                             }
+
                             line = ["M", x1, y1, "L", x2, y2].join(" ");
+                            if (!target.tagName) {
+                                //console.log('tagName is undefined')
+                                return;
+                            }
                             //console.log("linecreate-move:\n tagName:" + target.tagName + " path:" + line);
                             currentPath.attr({
                                 path: line
@@ -3506,10 +3515,10 @@
                 }
 
                 opt = $.extend(true, {}, config, opt);
-                debugger;
+       
                 $self.data("opt", opt);
                 $self.empty();
-                debugger;
+     
                 flow.init(this, opt);
                 flow.resize(this, opt);
             });
