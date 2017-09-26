@@ -159,7 +159,6 @@
                 states: {
                     select: {
                         showType: 'image',
-                        //type: 'select',
                         name: '<<select>>',
                         text: {
                             text: '选择'
@@ -174,7 +173,6 @@
                     },
                     line: {
                         showType: 'image',
-                        //type: 'line',
                         text: '<<line>>',
                         text: {
                             text: '连线'
@@ -188,7 +186,6 @@
                     },
                     flowStart: {
                         showType: null,
-                        //type: 'FlowSwitch',
                         name: 'StartNode',
                         text: {
                             text: '开始',
@@ -205,7 +202,6 @@
                     },
                     flowEnd: {
                         showType: null,
-                        //type: 'FlowSwitch',
                         name: 'EndNode',
                         text: {
                             text: '开始',
@@ -222,7 +218,6 @@
                     },
                     flowSwitch: {
                         showType: 'image',
-                        //type: 'FlowSwitch',
                         name: 'FlowSwitch',
                         text: {
                             text: '分支',
@@ -239,7 +234,6 @@
                     },
                     flowAnd: {
                         showType: 'image',
-                        //type: 'flowAnd',
                         name: 'FlowAnd',
                         text: {
                             text: '并行与',
@@ -256,7 +250,6 @@
                     },
                     flowOr: {
                         showType: 'image',
-                        //type: 'flowOr',
                         name: 'FlowOr',
                         text: {
                             text: '并行或',
@@ -273,7 +266,6 @@
                     },
                     flowExecute: {
                         showType: 'image',
-                        //type: 'flowExecute',
                         name: 'FlowExecute',
                         text: {
                             text: '执行'
@@ -288,7 +280,6 @@
                     },
                     flowAudit: {
                         showType: 'image',
-                        //type: 'flowAudit',
                         name: 'FlowAudit',
                         text: {
                             text: '评审'
@@ -302,7 +293,6 @@
                     },
                     flowCheck: {
                         showType: 'image',
-                        //type: 'flowCheck',
                         name: 'FlowCheck',
                         text: {
                             text: '签收'
@@ -317,7 +307,6 @@
                     },
                     flowBusiness: {
                         showType: 'image',
-                        //type: 'flowBusiness',
                         name: 'FlowBusiness',
                         text: {
                             text: '业务'
@@ -333,7 +322,6 @@
                     //固定的操作"validate":验证
                     validate: {
                         showType: 'image',
-                        //type: 'validate',
                         name: '<<validate>>',
                         text: {
                             text: '验证'
@@ -348,7 +336,6 @@
                     //固定的操作"delete"：删除
                     "delete": {
                         showType: 'image',
-                        //type: 'delete',
                         name: '<<delete>>',
                         text: {
                             text: '删除'
@@ -363,13 +350,6 @@
                 },
                 event: {}
             },
-            // props: {
-            //     attr: {
-            //         top: 10,
-            //         right: 30
-            //     },
-            //     props: {}
-            // },
             restore: [],
             event: {
                 toggle: function (pid, prevProps, currProps, props) {
@@ -490,7 +470,6 @@
                 image = null,
                 text = null,
                 validate = null,
-                //condition = null,
                 moveOpt = {},
                 basePath = config.basePath,
                 nodeList = flowProps.props.NodeList,
@@ -1145,7 +1124,7 @@
                 $(endRect[0]).attr("data-type", "path-end-rect");
 
                 validate = paper.text(x1 + config.validate.dx, y1, config.validate.text).attr(config.validate.attr).hide();
-                //working
+      
                 condition = paper.text((x1 + x2) / 2, (y1 + y2) / 2, opt.props.ConditionText || "").attr(config.condition.attr);
 
 
@@ -2908,7 +2887,7 @@
 
                 //新建的节点，把属性添加到全局流程对象
                 if (!options.id) {
-                    //working
+     
                     newNode = $.extend(true, {}, config.path.props, config.tools.states[type].props);
                     flowProps.props.LinkList.push(newNode);
                     newNode.LinkID = id;

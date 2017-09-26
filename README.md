@@ -243,7 +243,6 @@ $.extend(true, $.workflow.config.tools.event, {
         $("#paper").workflow(opt);
     },
     save: function (pid, props) {
-        debugger;
         var restore = $("#paper").workflow('save');
     }
 });
@@ -645,7 +644,6 @@ var opt = {
                 $("#paper").workflow(opt);
             },
             save: function (pid, props) {
-                debugger;
                 var restore = $("#paper").workflow('save');
             }
         },
