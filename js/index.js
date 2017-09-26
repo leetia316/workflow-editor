@@ -346,9 +346,6 @@ $(function () {
         restore: restore2
     };
 
-
-
-
     $("#paper").workflow(opt);
 
 });
