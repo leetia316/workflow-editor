@@ -1839,21 +1839,23 @@
                     v = Math.abs(endNodeCenter.y - startNodeCenter.y);
                     h = Math.abs(endNodeCenter.x - startNodeCenter.x);
 
-                    if (path.fromDot) {
+                    if (path.fromDot && flowProps.rect[path.fromDot]) {
                         fromDot = flowProps.rect[path.fromDot].node.getCenter();
                         fromDotX = fromDot.x;
                         fromDotY = fromDot.y;
                     } else {
+                        path.fromDot = null;
                         fromDot = startRect;
                         fromDotX = startRect.attr("x");
                         fromDotY = startRect.attr("y");
                     }
 
-                    if (path.toDot) {
+                    if (path.toDot && flowProps.rect[path.toDot]) {
                         toDot = flowProps.rect[path.toDot].node.getCenter();
                         toDotX = toDot.x;
                         toDotY = toDot.y;
                     } else {
+                        path.toDot = null;
                         toDot = endRect;
                         toDotX = endRect.attr("x");
                         toDotY = endRect.attr("y");
@@ -2699,7 +2701,7 @@
                     try {
                         //返回false阻止toggle事件
                         stopToggle = toggle.call(null, pid, prevNodeProps, currNodeProps, flowProps.props) === false ? true : false;
-                        console.log("canvasNodeToggle stopToggle:" + stopToggle);
+                        //console.log("canvasNodeToggle stopToggle:" + stopToggle);
                         //记录toggle事件状态
                         flow.util.stopToggle(stopToggle);
                     } catch (e) {
@@ -2864,10 +2866,12 @@
                 //新建的节点，把属性添加到全局流程对象
                 newStart = nodeStartOpt.props;
                 newStart.NodeID = startId;
+                newStart.NodeType = nodeStartOpt.name;
                 flowProps.props.NodeList.push(newStart);
+
                 newEnd = nodeEndOpt.props;
                 newEnd.NodeID = endId;
-                newEnd.NodeType = nodeStartOpt.name;
+                newEnd.NodeType = nodeEndOpt.name;
                 flowProps.props.NodeList.push(newEnd);
 
                 //创建节点
@@ -3515,10 +3519,10 @@
                 }
 
                 opt = $.extend(true, {}, config, opt);
-       
+
                 $self.data("opt", opt);
                 $self.empty();
-     
+
                 flow.init(this, opt);
                 flow.resize(this, opt);
             });
