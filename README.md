@@ -16,8 +16,6 @@
 
 + 流程图支持节点、连线的验证显示；连线的条件显示；浏览模式节点的Tooptip显示。
 
-+ 流程连线支持2种显示方式，直线、直角折线。双击连线切换连线显示模式。
-
 + 支持全局和实例配置工具栏节点、连线皮肤，事件等相关配置项。
 
 ## 基本配置
@@ -36,6 +34,20 @@ $.workflow.config.basePath = "XXXX/";
 
 ```javascript
 $.workflow.config.guid='xxxxxx'
+```
+
+### 增加流程状态
+
+流程状态默认有两个：
+
++ `RUN` 执行中
++ `COMPLETE` 完成
+
+```javascript
+$.workflow.config.state.RUN = {
+    fill: "270-#fffce1-#ffff99",
+    stroke: "#edd770"
+}
 ```
 
 ## 配置事件
@@ -127,6 +139,36 @@ $.extend(true, $.workflow.config.path, {
 编辑状态下，选择工具栏`连线`菜单，进入连线添加状态。在画布中选择连线起始位置，按下鼠标左键并移动鼠标至结束位置，完成画线的动作（可连续添加多个）；点击右键结束并恢复为选择状态。
 
 
+### 数据格式
+
+`showType` : 显示类型
+
+ + `image`
+ + `text`
+ + `null` : 此类型下不会在工具栏模版中显示
+
+`name` : 节点的类型
+
+`text` : 节点显示名称
+
+`img` : 节点的默认图片
+
+`nodeType` : 节点的类型。为`null`时为非创建节点类型（可以理解为功能菜单，不是流程图中的节点类型）
+
+```javascript
+{
+    showType: 'image',
+    name: '<<save>>',
+    text: {
+        text: '保存'
+    },
+    img: {
+        src: '~/images/save.png'
+    },
+    nodeType: null
+}
+```
+
 ### 配置工具栏自定义节点
 
 ```javascript
@@ -206,6 +248,115 @@ $.extend(true, $.workflow.config.tools.event, {
     }
 });
 ``` 
+
+## 数据格式（配置项`restore`）
+
+`Name` : 流程图标题
+
+`DisplayName` : 流程图显示标题
+
+`Description` : 流程图说明
+
+`NodeList` : 流程图节点数据
+
+`LinkList` : 流程图连线数据
+
+```javascript
+{
+    "Name": "并行或流程",
+    "DisplayName": "并行或流程",
+    "Description": "",
+    "NodeList": [],
+    "LinkList": []
+}
+```
+
+
+### 流程图节点数据格式
+
+`NodeID` : 节点Id。开始节点和结束节点固定为`StartNode`和`EndNode`；其它的节点id更加配置项guid生成。
+
+`NodeType` : 节点类型。默认有以下类型：
+
++ `StartNode` : 开始
++ `EndNode` :  结束
++ `FlowSwitch`: 分支
++ `FlowAnd`: 并行与
++ `FlowOr`: 并行或
++ `FlowExecute`: 执行
++ `FlowAudit`: 评审
++ `FlowCheck`: 签收
++ `FlowBusiness`: 业务
+
+`NodeText` : 节点名称
+
+`CenterX` : 节点中心位置X坐标
+
+`CenterY` :  节点中心位置Y坐标
+
+`ImagePath` : 节点显示图片。此项为空时，根据节点类型`NodeType`匹配显示。
+
+`Tooltip` : 在浏览模式时有效。使用`\n`换行显示。
+
+`State` : 节点状态。默认2个状态`RUN`和`COMPLETE`
+
+```javascript
+{
+    "NodeID": "StartNode",
+    "NodeType": "StartNode",
+    "NodeText": "开始",
+    "CenterX": 300,
+    "CenterY": 78,
+    "State": "COMPLETE"
+    "ImagePath": "workflow-editor/img/StartNode.png",
+    "Tooltip": "我是Tooltip...."
+}
+```
+
+
+### 流程图线数据格式
+
+`LinkID` : 连线Id。
+
+`StartNodeID` : 关联的起始流程节点
+
+`EndNodeID` : 关联的结束流程节点
+
+`StartX` : 起始位置X轴坐标
+
+`StartY` : 起始位置Y轴坐标
+
+`EndX` : 结束位置X轴坐标
+
+`EndY` : 结束位置Y轴坐标
+
+`DisplayType` : 流程线类型，在绘图的时候会自动赋值。包括3种：
+
++ `straightLine` : 直线
++ `brokenHLine` :  水平折线
++ `brokenVLine`: 垂直折线
+
+`FirstLength` : 绘制折线的拐点参数，绘图时自动赋值。保存为整型。
+
+`ConditionText` : 条件文本显示
+
+`State` : 流程线状态
+
+```javascript
+{
+    "LinkID": "LINEb0baa3eed45d4cd7b5ba48480a6cc588",
+    "StartNodeID": "StartNode",
+    "StartX": 304,
+    "StartY": 73,
+    "EndNodeID": "NODE43a1ec2fb4a143fcb915183b4b0c890d-SNode",
+    "EndX": 303,
+    "EndY": 194,
+    "DisplayType": 0,
+    "FirstLength": 0,
+    "ConditionText": '一二三',
+    "State": "COMPLETE"
+}
+```
 
 ## 创建流程图
 

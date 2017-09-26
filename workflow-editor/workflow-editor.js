@@ -407,11 +407,11 @@
             state: {
                 RUN: {
                     fill: "270-#fffce1-#ffff99",
-                    stroke: "#edd770",
+                    stroke: "#edd770"
                 },
                 COMPLETE: {
                     fill: "270-#f0ffe2-#d0ffc5",
-                    stroke: "#aed47d",
+                    stroke: "#aed47d"
                 }
             }
         },

@@ -212,9 +212,7 @@ $(function () {
             "Conditions": [],
             "HaveCondition": 0,
             "ConditionText": '1+1=2?'
-        }],
-        //"PluginList": [{ "Name": "SendFlowMessage", "BeforeExec": true, "Content": "{\"MessageType\":{\"RTX\":false,\"Email\":false,\"InstantMessage\":true},\"SendUser\":{\"CURRENTUSER\":true,\"PROMOTER\":false}}" }],
-        "RelatedModel": null
+        }]
     }
 
     var restore2 = {
@@ -343,7 +341,7 @@ $(function () {
                 }
             },
         },
-        restore: restore2
+        restore: restore1
     };
 
     $("#paper").workflow(opt);
