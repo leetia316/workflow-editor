@@ -23,7 +23,7 @@
             location: location.origin,
             width: 2400,
             height: 2400,
-            padding: 100,
+            padding: 130,
             rect: {
                 attr: {
                     x: 10,
@@ -1124,7 +1124,7 @@
                 $(endRect[0]).attr("data-type", "path-end-rect");
 
                 validate = paper.text(x1 + config.validate.dx, y1, config.validate.text).attr(config.validate.attr).hide();
-      
+
                 condition = paper.text((x1 + x2) / 2, (y1 + y2) / 2, opt.props.ConditionText || "").attr(config.condition.attr);
 
 
@@ -2887,7 +2887,7 @@
 
                 //新建的节点，把属性添加到全局流程对象
                 if (!options.id) {
-     
+
                     newNode = $.extend(true, {}, config.path.props, config.tools.states[type].props);
                     flowProps.props.LinkList.push(newNode);
                     newNode.LinkID = id;
@@ -3493,7 +3493,9 @@
 
                     $.each(config.tools.states, function (i, n) {
                         var imgSrc = this.img.src;
-                        this.img.src = (opt.basePath || config.basePath || '') + 'img/tools/' + imgSrc;
+                        if (imgSrc.indexOf('/') === -1 && imgSrc.indexOf('\\') === -1) {
+                            this.img.src = (opt.basePath || config.basePath || '') + 'img/tools/' + imgSrc;
+                        }
                     });
                 }
 
