@@ -2784,7 +2784,7 @@
                 if (isCreateNewNode) {
 
                     newNodeTemplate = config.tools.states[type];
-                    newNode = $.extend(true, {}, config.rect.props, newNodeTemplate.props);
+                    newNode = $.extend(true, {}, newNodeTemplate.props, config.rect.props);
                     flowProps.props.NodeList.push(newNode);
                     newNode.NodeID = id;
                     newNode.NodeText = newNodeTemplate.text.text;
@@ -2888,7 +2888,7 @@
                 //新建的节点，把属性添加到全局流程对象
                 if (!options.id) {
 
-                    newNode = $.extend(true, {}, config.path.props, config.tools.states[type].props);
+                    newNode = $.extend(true, {},config.tools.states[type].props, config.path.props );
                     flowProps.props.LinkList.push(newNode);
                     newNode.LinkID = id;
                     props = newNode;
