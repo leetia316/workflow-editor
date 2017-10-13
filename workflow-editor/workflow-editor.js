@@ -1021,21 +1021,20 @@
                 basePath = config.basePath,
                 location = config.location;
 
-            if (src) {
-                //src = src.replace(/~/, location);
-                src = src.replace(/~/, '.');
-                return src;
-            }
-            src = '';
             //加载默认
-            $.each(states, function (i, arr) {
-                var item = this,
-                    _nodeType = item.name;
-                if (nodeType === _nodeType) {
-                    src = item.img.src;
-                    return false;
-                }
-            });
+            if (!src) {
+                src = "";
+                $.each(states, function (i, arr) {
+                    var item = this,
+                        _nodeType = item.name;
+                    if (nodeType === _nodeType) {
+                        src = item.img.src;
+                        return false;
+                    }
+                });
+            }
+
+            src = src.replace(/~/, '.');
 
             return src;
         },
@@ -2769,10 +2768,9 @@
 
             //添加rect类型节点
             function addrect(e, type, options) {
-                var id = options.id || ("NODE" + config.guid + flow.util.nextId()),
-                    opt = $.extend(true, {}, config.tools.states[type], options, {
-                        id: id
-                    }),
+
+                var id = options.id,
+                    opt,
                     node = null,
                     d = null,
                     newNode = null,
@@ -2782,14 +2780,19 @@
 
                 //新建的节点，把属性添加到全局流程对象
                 if (isCreateNewNode) {
-
+                    id = ("NODE" + config.guid + flow.util.nextId());
                     newNodeTemplate = config.tools.states[type];
-                    newNode = $.extend(true, {}, newNodeTemplate.props, config.rect.props);
+                    opt = $.extend(true, {}, newNodeTemplate, options, {
+                        id: id
+                    })
+                    newNode = $.extend(true, opt.props, config.rect.props);
                     flowProps.props.NodeList.push(newNode);
                     newNode.NodeID = id;
                     newNode.NodeText = newNodeTemplate.text.text;
                     newNode.NodeType = newNodeTemplate.name;
                     props = newNode;
+                } else {
+                    opt = options;
                 }
                 //创建新的节点
                 node = new flow.rect(container, paper, opt, flowProps);
@@ -2804,20 +2807,21 @@
                 return node;
             }
 
-            //添加relaterect类型节点
+            //添加relaterect类型节点,此方法只会在使用工具栏创建节点时使用
             function addrelaterect(e, type, options) {
+
                 var startId = null,
                     endId = null,
                     nodeStartOpt = null,
                     nodeEndOpt = null,
                     nodeStart,
                     nodeEnd,
-                    dStart,
-                    dEnd,
+                    //dStart,
+                    //dEnd,
                     y,
                     rectHeight = config.rect.attr.height,
-                    nodeEndData,
-                    nodeStartData,
+                    de,
+                    ds,
                     newStart,
                     newEnd,
                     guid = config.guid + flow.util.nextId();
@@ -2831,6 +2835,8 @@
                 nodeEndOpt = $.extend(true, {}, config.tools.states[type], options, {
                     id: endId
                 });
+
+                //计算位置
                 nodeStartOpt.text.text = nodeStartOpt.text.start;
                 nodeEndOpt.text.text = nodeStartOpt.text.end;
                 y = nodeEndOpt.attr.y + 100 + rectHeight;
@@ -2843,14 +2849,16 @@
                 }
 
                 //新建的节点，把属性添加到全局流程对象
-                newStart = nodeStartOpt.props;
+                newStart = $.extend(true, nodeStartOpt.props, config.rect.props);
                 newStart.NodeID = startId;
                 newStart.NodeType = nodeStartOpt.name;
+                newStart.NodeText = nodeStartOpt.text.text;
                 flowProps.props.NodeList.push(newStart);
 
-                newEnd = nodeEndOpt.props;
+                newEnd = $.extend(true, nodeEndOpt.props, config.rect.props);
                 newEnd.NodeID = endId;
                 newEnd.NodeType = nodeEndOpt.name;
+                newEnd.NodeText = nodeEndOpt.text.text;
                 flowProps.props.NodeList.push(newEnd);
 
                 //创建节点
@@ -2859,14 +2867,14 @@
                 nodeStart.relateRect = nodeEnd;
                 nodeEnd.relateRect = nodeStart;
                 //加入节点列表
-                nodeStartData = flowProps.rect[startId] = {};
-                nodeEndData = flowProps.rect[endId] = {};
-                nodeStartData.node = nodeStart;
-                nodeEndData.node = nodeEnd;
-                nodeStartOpt.props.NodeText = nodeStartOpt.text.text;
-                nodeStartData.props = nodeStartOpt.props;
-                nodeEndOpt.props.NodeText = nodeEndOpt.text.text;
-                nodeEndData.props = nodeEndOpt.props;
+                ds = flowProps.rect[startId] = {};
+                ds.node = nodeStart;
+                ds.props = newStart;
+
+                de = flowProps.rect[endId] = {};
+                de.node = nodeEnd;
+                de.props = newEnd;
+
                 //自动选中
                 nodeStart.setSelected();
 
@@ -2875,23 +2883,32 @@
 
             //添加连线
             function addpath(e, type, options) {
-                var id = options.id || ("LINE" + config.guid + flow.util.nextId()),
-                    opt = $.extend(true, {}, config.tools.states[type], options, {
-                        id: id,
-                        pid: pid
-                    }),
+                var id = options.id,
+                    // opt = $.extend(true, {}, config.tools.states[type], options, {
+                    //     id: id
+                    //     //pid: pid
+                    // }),
+                    opt,
                     node = null,
                     d = null,
                     newNode,
+                    isCreateNewNode = !options.id,
                     props = options.props;
+                //newNodeTemplate;
 
                 //新建的节点，把属性添加到全局流程对象
-                if (!options.id) {
-
-                    newNode = $.extend(true, {},config.tools.states[type].props, config.path.props );
+                if (isCreateNewNode) {
+                    id = "LINE" + config.guid + flow.util.nextId();
+                    newNodeTemplate = config.tools.states[type];
+                    opt = $.extend(true, {}, options, {
+                        id: id
+                    })
+                    newNode = $.extend(true, {}, config.path.props);
                     flowProps.props.LinkList.push(newNode);
                     newNode.LinkID = id;
                     props = newNode;
+                } else {
+                    opt = options;
                 }
                 //创建连线
                 node = new flow.path(container, paper, opt, flowProps);
@@ -2927,13 +2944,13 @@
                             }]);
                             break;
                         case "path":
-                            $(paper).trigger("addpath", [opt.type, $.extend(true, {
+                            $(paper).trigger("addpath", [opt.type, $.extend(true, opt, {
                                 x: x,
                                 y: y
-                            }, opt)]);
+                            })]);
                             break;
                         default:
-                            $(paper).trigger("addrect", [opt.type, $.extend(true, {
+                            $(paper).trigger("addrect", [opt.type, $.extend(true, opt, {
                                 attr: {
                                     x: x,
                                     y: y
@@ -2941,7 +2958,7 @@
                                 img: {
                                     src: opt.img.src
                                 }
-                            }, opt)]);
+                            })]);
                             break;
                     }
                 }
@@ -3435,7 +3452,8 @@
     };
 
     $.fn.workflow = function (opt) {
-        var fn, self, $self, _opt;
+        var fn, self, $self, _opt,
+            restore = opt.restore;
 
         self = this;
         $self = $(this);
@@ -3500,6 +3518,8 @@
                 }
 
                 opt = $.extend(true, {}, config, opt);
+
+                opt.restore = restore;
 
                 $self.data("opt", opt);
                 $self.empty();

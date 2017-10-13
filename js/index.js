@@ -336,13 +336,17 @@ $(function () {
                     $("#paper").workflow(opt);
                 },
                 save: function (pid, props) {
-                    debugger;
+                 
                     var restore = $("#paper").workflow('save');
                 }
             },
         },
         restore: restore1
     };
+
+    //测试引用变量
+    window.globalRestore=opt.restore;
+    window.globalNodeTest=opt.restore.NodeList[4];
 
     $("#paper").workflow(opt);
 
