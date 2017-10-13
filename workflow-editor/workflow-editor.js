@@ -3506,31 +3506,14 @@
                         opt.guid += (new Date()).getTime();
                     }
                     if (opt.restore) {
-                        // if (opt.restore.NodeList || opt.restore.NodeList.length > 0) {
-                        //     lastData.restore.NodeList = [];
-                        // }
-                        // if (opt.restore.LinkList || opt.restore.LinkList.length > 0) {
-                        //     lastData.restore.LinkList = [];
-                        // }
                         lastData.restore = {};
                     } else {
                         restore = lastData.restore;
                     }
                     opt = $.extend(true, {}, config, lastData, opt);
                 } 
-                
-                // else {
-                    
-                //     $.each(config.tools.states, function (i, n) {
-                //         var imgSrc = this.img.src;
-                //         if (imgSrc.indexOf('/') === -1 && imgSrc.indexOf('\\') === -1) {
-                //             this.img.src = (opt.basePath || config.basePath || '') + 'img/tools/' + imgSrc;
-                //         }
-                //     });
-                // }
 
                 opt = $.extend(true, {}, config, opt);
-
                 opt.restore = restore;
 
                 $self.data("opt", opt);
