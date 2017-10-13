@@ -3499,12 +3499,15 @@
                         opt.guid += (new Date()).getTime();
                     }
                     if (opt.restore) {
-                        if (opt.restore.NodeList || opt.restore.NodeList.length > 0) {
-                            lastData.restore.NodeList = [];
-                        }
-                        if (opt.restore.LinkList || opt.restore.LinkList.length > 0) {
-                            lastData.restore.LinkList = [];
-                        }
+                        // if (opt.restore.NodeList || opt.restore.NodeList.length > 0) {
+                        //     lastData.restore.NodeList = [];
+                        // }
+                        // if (opt.restore.LinkList || opt.restore.LinkList.length > 0) {
+                        //     lastData.restore.LinkList = [];
+                        // }
+                        lastData.restore = {};
+                    } else {
+                        restore = lastData.restore;
                     }
                     opt = $.extend(true, {}, config, lastData, opt);
                 } else {
@@ -3531,4 +3534,5 @@
     };
 
     $.workflow = flow;
+
 }(jQuery));
