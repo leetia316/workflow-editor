@@ -421,6 +421,13 @@
                     '</div>'
                 ]
             };
+            //计算工具栏图标正确路径
+            $.each(config.tools.states, function (i, n) {
+                var imgSrc = this.img.src;
+                if (imgSrc.indexOf('/') === -1 && imgSrc.indexOf('\\') === -1) {
+                    this.img.src = (opt.basePath || config.basePath || '') + 'img/tools/' + imgSrc;
+                }
+            });
 
             html = template.container.slice();
             for (i in opt) {
@@ -3510,15 +3517,17 @@
                         restore = lastData.restore;
                     }
                     opt = $.extend(true, {}, config, lastData, opt);
-                } else {
-
-                    $.each(config.tools.states, function (i, n) {
-                        var imgSrc = this.img.src;
-                        if (imgSrc.indexOf('/') === -1 && imgSrc.indexOf('\\') === -1) {
-                            this.img.src = (opt.basePath || config.basePath || '') + 'img/tools/' + imgSrc;
-                        }
-                    });
-                }
+                } 
+                
+                // else {
+                    
+                //     $.each(config.tools.states, function (i, n) {
+                //         var imgSrc = this.img.src;
+                //         if (imgSrc.indexOf('/') === -1 && imgSrc.indexOf('\\') === -1) {
+                //             this.img.src = (opt.basePath || config.basePath || '') + 'img/tools/' + imgSrc;
+                //         }
+                //     });
+                // }
 
                 opt = $.extend(true, {}, config, opt);
 
