@@ -1,5 +1,5 @@
 ﻿/*!
- * workflow editor v1.3.0 -  jQuery raphael plug
+ * workflow editor v1.4.0 -  jQuery raphael plug
  *
  * Includes jquery.js
  * Includes raphael.js
@@ -421,13 +421,6 @@
                     '</div>'
                 ]
             };
-            //计算工具栏图标正确路径
-            // $.each(config.tools.states, function (i, n) {
-            //     var imgSrc = this.img.src;
-            //     if (imgSrc.indexOf('/') === -1 && imgSrc.indexOf('\\') === -1) {
-            //         this.img.src = (opt.basePath || config.basePath || '') + 'img/tools/' + imgSrc;
-            //     }
-            // });
 
             html = template.container.slice();
             for (i in opt) {
@@ -1029,7 +1022,7 @@
             var states = config.tools.states,
                 basePath = config.basePath,
                 location = config.location;
-            debugger;
+
             //加载默认
             if (!src) {
                 src = "";
@@ -2359,29 +2352,36 @@
 
             //双击事件
             function ondbClick(e) {
-                var fromDot, x, y;
-                //console.log("path dblclick");
-                //两端存在节点时允许线型变换
-                if (path.toDot && path.fromDot) {
-                    firstLineWidth = defaultFirstLineWidth;
-                    path.attr({
-                        "stroke-width": config.path.attr["stroke-width-active"]
-                    });
-                    //console.log(drawLineType);
-                    if (displayType === 0) {
-                        displayType = 1;
+                //使用mouseup模拟双击事件
+                //console.log(e.timeStamp);
+                var prevTimeStamp = path.prevTimeStamp || 0;
+                
+                if (e.which === 1 && (e.timeStamp - prevTimeStamp) < 300) {
+                    var fromDot, x, y;
+                    console.log("path dblclick");
+                    //两端存在节点时允许线型变换
+                    if (path.toDot && path.fromDot) {
                         firstLineWidth = defaultFirstLineWidth;
-                    } else if (displayType === 1) {
-                        displayType = 2;
-                        firstLineWidth = defaultFirstLineWidth;
-                    } else {
-                        displayType = 0;
-                        firstLineWidth = 0;
-                    }
+                        path.attr({
+                            "stroke-width": config.path.attr["stroke-width-active"]
+                        });
+                        //console.log(drawLineType);
+                        if (displayType === 0) {
+                            displayType = 1;
+                            firstLineWidth = defaultFirstLineWidth;
+                        } else if (displayType === 1) {
+                            displayType = 2;
+                            firstLineWidth = defaultFirstLineWidth;
+                        } else {
+                            displayType = 0;
+                            firstLineWidth = 0;
+                        }
 
-                    drawlinkPath.draw();
+                        drawlinkPath.draw();
+                    }
+                    changeProps();
                 }
-                changeProps();
+                path.prevTimeStamp = e.timeStamp;
             }
 
             //绑定拖拽事件
@@ -2428,7 +2428,9 @@
                 if (!config.editable) {
                     return;
                 }
-                $([bigPath.node, resizePath.node]).on("dblclick", ondbClick);
+
+                bigPath.mouseup(ondbClick);
+                resizePath.mouseup(ondbClick);
             }
 
             //解除拖拽事件绑定
@@ -2446,8 +2448,8 @@
 
             //初始化及创建连线
             create(opt);
-            binddrag();
             bindclick();
+            binddrag();
 
             //获取Id
             this.getId = function () {
@@ -2781,7 +2783,7 @@
 
             //添加rect类型节点
             function addrect(e, type, options) {
-                debugger;
+
                 var id = options.id,
                     opt,
                     node = null,
@@ -2800,13 +2802,13 @@
                     }, newNodeTemplate, options, {
                         id: id
                     })
-                    //newNode = $.extend(true, opt.props, config.rect.props);
+
                     props = opt.props;
                     flowProps.props.NodeList.push(props);
                     props.NodeID = id;
                     props.NodeText = newNodeTemplate.text.text;
                     props.NodeType = newNodeTemplate.name;
-                    //props = newNode;
+
                 } else {
                     opt = options;
                 }
@@ -2832,8 +2834,6 @@
                     nodeEndOpt = null,
                     nodeStart,
                     nodeEnd,
-                    //dStart,
-                    //dEnd,
                     y,
                     rectHeight = config.rect.attr.height,
                     de,
@@ -2842,7 +2842,7 @@
                     newEnd,
                     guid = config.guid + flow.util.nextId();
 
-
+                //初始化节点
                 startId = "NODE" + guid + "-SNode";
                 endId = "NODE" + guid + "-ENode";
                 nodeStartOpt = $.extend(true, {}, {
@@ -2869,14 +2869,12 @@
                 }
 
                 //新建的节点，把属性添加到全局流程对象
-                //newStart = $.extend(true, nodeStartOpt.props, config.rect.props);
                 newStart = nodeStartOpt.props;
                 newStart.NodeID = startId;
                 newStart.NodeType = nodeStartOpt.name;
                 newStart.NodeText = nodeStartOpt.text.text;
                 flowProps.props.NodeList.push(newStart);
 
-                //newEnd = $.extend(true, nodeEndOpt.props, config.rect.props);
                 newEnd = nodeEndOpt.props;
                 newEnd.NodeID = endId;
                 newEnd.NodeType = nodeEndOpt.name;
@@ -2906,17 +2904,12 @@
             //添加连线
             function addpath(e, type, options) {
                 var id = options.id,
-                    // opt = $.extend(true, {}, config.tools.states[type], options, {
-                    //     id: id
-                    //     //pid: pid
-                    // }),
                     opt,
                     node = null,
                     d = null,
                     newNode,
                     isCreateNewNode = !options.id,
                     props = options.props;
-                //newNodeTemplate;
 
                 //新建的节点，把属性添加到全局流程对象
                 if (isCreateNewNode) {
@@ -2927,11 +2920,11 @@
                     }, options, {
                         id: id
                     })
-                    //newNode = $.extend(true, {}, config.path.props);
+
                     props = opt.props;
                     flowProps.props.LinkList.push(props);
                     props.LinkID = id;
-                    //props = newNode;
+
                 } else {
                     opt = options;
                 }
