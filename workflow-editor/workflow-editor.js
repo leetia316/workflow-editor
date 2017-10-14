@@ -422,12 +422,12 @@
                 ]
             };
             //计算工具栏图标正确路径
-            $.each(config.tools.states, function (i, n) {
-                var imgSrc = this.img.src;
-                if (imgSrc.indexOf('/') === -1 && imgSrc.indexOf('\\') === -1) {
-                    this.img.src = (opt.basePath || config.basePath || '') + 'img/tools/' + imgSrc;
-                }
-            });
+            // $.each(config.tools.states, function (i, n) {
+            //     var imgSrc = this.img.src;
+            //     if (imgSrc.indexOf('/') === -1 && imgSrc.indexOf('\\') === -1) {
+            //         this.img.src = (opt.basePath || config.basePath || '') + 'img/tools/' + imgSrc;
+            //     }
+            // });
 
             html = template.container.slice();
             for (i in opt) {
@@ -438,7 +438,9 @@
                     opt[i].type = i;
                     if (item.showType) {
                         nodeType = (!item.nodeType || item.nodeType === "none") ? "business" : item.nodeType;
-                        items.push(template.node.slice().replace("[src]", item.img.src.replace(/~/, '.')).replace("[name]", item.text.text).replace("[type]", i).replace("[state]", nodeType));
+                        items.push(template.node.slice()
+                            .replace("[src]", flow.formatImageUrl(item.img.src, nodeType, config))
+                            .replace("[name]", item.text.text).replace("[type]", i).replace("[state]", nodeType));
                     }
                 }
             }
@@ -1027,7 +1029,7 @@
             var states = config.tools.states,
                 basePath = config.basePath,
                 location = config.location;
-
+            debugger;
             //加载默认
             if (!src) {
                 src = "";
@@ -1039,6 +1041,10 @@
                         return false;
                     }
                 });
+            }
+
+            if (src.indexOf('/') === -1 && src.indexOf('\\') === -1) {
+                src = (basePath || '') + 'img/tools/' + src;
             }
 
             src = src.replace(/~/, '.');
@@ -2775,7 +2781,7 @@
 
             //添加rect类型节点
             function addrect(e, type, options) {
-
+                debugger;
                 var id = options.id,
                     opt,
                     node = null,
@@ -2789,15 +2795,18 @@
                 if (isCreateNewNode) {
                     id = ("NODE" + config.guid + flow.util.nextId());
                     newNodeTemplate = config.tools.states[type];
-                    opt = $.extend(true, {}, newNodeTemplate, options, {
+                    opt = $.extend(true, {}, {
+                        props: config.rect.props
+                    }, newNodeTemplate, options, {
                         id: id
                     })
-                    newNode = $.extend(true, opt.props, config.rect.props);
-                    flowProps.props.NodeList.push(newNode);
-                    newNode.NodeID = id;
-                    newNode.NodeText = newNodeTemplate.text.text;
-                    newNode.NodeType = newNodeTemplate.name;
-                    props = newNode;
+                    //newNode = $.extend(true, opt.props, config.rect.props);
+                    props = opt.props;
+                    flowProps.props.NodeList.push(props);
+                    props.NodeID = id;
+                    props.NodeText = newNodeTemplate.text.text;
+                    props.NodeType = newNodeTemplate.name;
+                    //props = newNode;
                 } else {
                     opt = options;
                 }
@@ -2836,10 +2845,14 @@
 
                 startId = "NODE" + guid + "-SNode";
                 endId = "NODE" + guid + "-ENode";
-                nodeStartOpt = $.extend(true, {}, config.tools.states[type], options, {
+                nodeStartOpt = $.extend(true, {}, {
+                    props: config.rect.props
+                }, config.tools.states[type], options, {
                     id: startId
                 });
-                nodeEndOpt = $.extend(true, {}, config.tools.states[type], options, {
+                nodeEndOpt = $.extend(true, {}, {
+                    props: config.rect.props
+                }, config.tools.states[type], options, {
                     id: endId
                 });
 
@@ -2856,13 +2869,15 @@
                 }
 
                 //新建的节点，把属性添加到全局流程对象
-                newStart = $.extend(true, nodeStartOpt.props, config.rect.props);
+                //newStart = $.extend(true, nodeStartOpt.props, config.rect.props);
+                newStart = nodeStartOpt.props;
                 newStart.NodeID = startId;
                 newStart.NodeType = nodeStartOpt.name;
                 newStart.NodeText = nodeStartOpt.text.text;
                 flowProps.props.NodeList.push(newStart);
 
-                newEnd = $.extend(true, nodeEndOpt.props, config.rect.props);
+                //newEnd = $.extend(true, nodeEndOpt.props, config.rect.props);
+                newEnd = nodeEndOpt.props;
                 newEnd.NodeID = endId;
                 newEnd.NodeType = nodeEndOpt.name;
                 newEnd.NodeText = nodeEndOpt.text.text;
@@ -2907,13 +2922,16 @@
                 if (isCreateNewNode) {
                     id = "LINE" + config.guid + flow.util.nextId();
                     newNodeTemplate = config.tools.states[type];
-                    opt = $.extend(true, {}, options, {
+                    opt = $.extend(true, {}, {
+                        props: config.path.props
+                    }, options, {
                         id: id
                     })
-                    newNode = $.extend(true, {}, config.path.props);
-                    flowProps.props.LinkList.push(newNode);
-                    newNode.LinkID = id;
-                    props = newNode;
+                    //newNode = $.extend(true, {}, config.path.props);
+                    props = opt.props;
+                    flowProps.props.LinkList.push(props);
+                    props.LinkID = id;
+                    //props = newNode;
                 } else {
                     opt = options;
                 }
@@ -3511,7 +3529,7 @@
                         restore = lastData.restore;
                     }
                     opt = $.extend(true, {}, config, lastData, opt);
-                } 
+                }
 
                 opt = $.extend(true, {}, config, opt);
                 opt.restore = restore;
