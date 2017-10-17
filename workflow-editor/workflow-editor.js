@@ -2355,7 +2355,7 @@
                 //使用mouseup模拟双击事件
                 //console.log(e.timeStamp);
                 var prevTimeStamp = path.prevTimeStamp || 0;
-                
+
                 if (e.which === 1 && (e.timeStamp - prevTimeStamp) < 300) {
                     var fromDot, x, y;
                     console.log("path dblclick");
@@ -2796,18 +2796,16 @@
                 //新建的节点，把属性添加到全局流程对象
                 if (isCreateNewNode) {
                     id = ("NODE" + config.guid + flow.util.nextId());
-                    newNodeTemplate = config.tools.states[type];
-                    opt = $.extend(true, {}, {
-                        props: config.rect.props
-                    }, newNodeTemplate, options, {
+                    newNodeTemplate = JSON.stringify(config.tools.states[type]);
+                    opt = $.extend(true, {}, JSON.parse(newNodeTemplate), options, {
                         id: id
                     })
 
-                    props = opt.props;
+                    props = opt.props || {};
                     flowProps.props.NodeList.push(props);
                     props.NodeID = id;
-                    props.NodeText = newNodeTemplate.text.text;
-                    props.NodeType = newNodeTemplate.name;
+                    props.NodeText = opt.text.text;
+                    props.NodeType = opt.name;
 
                 } else {
                     opt = options;
@@ -2840,19 +2838,17 @@
                     ds,
                     newStart,
                     newEnd,
+                    newNodeTemplate = JSON.stringify(config.tools.states[type]),
                     guid = config.guid + flow.util.nextId();
 
                 //初始化节点
                 startId = "NODE" + guid + "-SNode";
                 endId = "NODE" + guid + "-ENode";
-                nodeStartOpt = $.extend(true, {}, {
-                    props: config.rect.props
-                }, config.tools.states[type], options, {
+
+                nodeStartOpt = $.extend(true, {}, JSON.parse(newNodeTemplate), options, {
                     id: startId
                 });
-                nodeEndOpt = $.extend(true, {}, {
-                    props: config.rect.props
-                }, config.tools.states[type], options, {
+                nodeEndOpt = $.extend(true, {}, JSON.parse(newNodeTemplate), options, {
                     id: endId
                 });
 
@@ -2869,13 +2865,13 @@
                 }
 
                 //新建的节点，把属性添加到全局流程对象
-                newStart = nodeStartOpt.props;
+                newStart = nodeStartOpt.props || {};
                 newStart.NodeID = startId;
                 newStart.NodeType = nodeStartOpt.name;
                 newStart.NodeText = nodeStartOpt.text.text;
                 flowProps.props.NodeList.push(newStart);
 
-                newEnd = nodeEndOpt.props;
+                newEnd = nodeEndOpt.props || {};
                 newEnd.NodeID = endId;
                 newEnd.NodeType = nodeEndOpt.name;
                 newEnd.NodeText = nodeEndOpt.text.text;
@@ -2914,14 +2910,12 @@
                 //新建的节点，把属性添加到全局流程对象
                 if (isCreateNewNode) {
                     id = "LINE" + config.guid + flow.util.nextId();
-                    newNodeTemplate = config.tools.states[type];
-                    opt = $.extend(true, {}, {
-                        props: config.path.props
-                    }, options, {
+                    newNodeTemplate = JSON.stringify(config.tools.states[type]);
+                    opt = $.extend(true, {}, JSON.parse(newNodeTemplate), options, {
                         id: id
                     })
 
-                    props = opt.props;
+                    props = opt.props || {};
                     flowProps.props.LinkList.push(props);
                     props.LinkID = id;
 
